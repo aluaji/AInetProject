@@ -11,6 +11,8 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
+
+                        <!-- name -->
                         <div class="form-group row">
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
 
@@ -25,6 +27,8 @@
                             </div>
                         </div>
 
+
+                        <!-- email -->
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
 
@@ -39,6 +43,8 @@
                             </div>
                         </div>
 
+
+                        <!-- password -->
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
@@ -53,6 +59,7 @@
                             </div>
                         </div>
 
+                        <!-- confirm password -->
                         <div class="form-group row">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
 
@@ -60,6 +67,24 @@
                                 <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
                             </div>
                         </div>
+
+                        <!-- phone number -->
+                            <div class="form-group row">
+                                <label for="phone-number" class="col-md-4 col-form-label text-md-right">{{ __('Phone Number (optional)') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="phone" type="text" class="form-control" name="phone_number">
+                                </div>
+                            </div>
+
+                            <!-- photo -->
+                            <div class="form-group row">
+                                <label for="profile_photo" class="col-md-4 col-form-label text-md-right">{{ __('Profile Photo (optional)') }}</label>
+
+                                <div class="col-md-6">
+                                    <input id="photo" type="file" accept="image/*" class="form-control" name="profile_photo">
+                                </div>
+                            </div>
 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">

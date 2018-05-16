@@ -11,16 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+Route::get('/', 'WelcomeController@welcomePageCounter')->name('welcome');
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
-
-/*Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home')*/
-
-Route::get('/register', 'RegisterController');
+Route::get('/me/associates', 'AssociateMembersController@viewMembersMyGroup')->name('MemberList');
+Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
+Route::get('/accounts/{user}', '')->name('AllAccounts');
