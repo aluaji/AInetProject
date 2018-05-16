@@ -81,6 +81,9 @@
                 <div class="title m-b-md">
                     Laravel
                 </div>
+                <div class="title m-b-md">
+                    Number of users:
+                </div>
 
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
