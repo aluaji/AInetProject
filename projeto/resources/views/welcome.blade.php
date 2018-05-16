@@ -81,8 +81,8 @@
                 <div class="title m-b-md">
                     Laravel
                 </div>
-                <div class="title m-b-md">
-                    Number of users:
+                <div>
+                    Number of users: {{ $number_of_rows  }}
                 </div>
 
                 <div class="links">
