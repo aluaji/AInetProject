@@ -8,10 +8,6 @@ use App\Movement;
 use App\Account;
 class WelcomeController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('guest');
-    }
 
     public function welcomePageCounter() {
         $number_of_users = User::get()->count();

@@ -61,6 +61,7 @@
                                     </form>
                                 </div>
                             </li>
+                            <li><img src="#" alt="profile_photo"height="40" width="40"></li>
                         @endguest
                     </ul>
                 </div>

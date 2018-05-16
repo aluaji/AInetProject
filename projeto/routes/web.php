@@ -16,3 +16,4 @@ Route::get('/', 'WelcomeController@welcomePageCounter')->name('welcome');
 
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('password/reset', 'ResetPasswordController@resetPassword')->name('auth.resetpassword');
