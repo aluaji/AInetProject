@@ -74,6 +74,12 @@
 
                                 <div class="col-md-6">
                                     <input id="phone" type="text" class="form-control" name="phone">
+
+                                    @if ($errors->has('phone'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 
@@ -83,6 +89,12 @@
 
                                 <div class="col-md-6">
                                     <input id="photo" type="file" accept="image/*" class="form-control" name="profile_photo">
+
+                                    @if ($errors->has('profile_photo'))
+                                        <span class="invalid-feedback">
+                                        <strong>{{ $errors->first('profile_photo') }}</strong>
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
 
