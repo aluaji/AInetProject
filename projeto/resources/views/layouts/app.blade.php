@@ -50,6 +50,7 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
                                     <!-- profile button -->
                                     <a class="dropdown-item" href="{{ route('profile') }}"
                                        onclick="event.preventDefault();
