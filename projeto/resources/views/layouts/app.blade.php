@@ -52,9 +52,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                                     <!-- profile button -->
-                                    <a class="dropdown-item" href="{{ route('profile') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('profile-form').submit();">
+                                    <!<a class="dropdown-item" href="#">
                                         {{ __('Profile') }}
                                     </a>
 
@@ -71,7 +69,9 @@
                                     </form>
                                 </div>
                             </li>
-                            <li><img src="#" alt="profile_photo"height="40" width="40"></li>
+                            <li>
+                                <img src=" {{ Auth::user()->profile_photo }}" height="40" width="40" style="border-radius: 30px;">
+                            </li>
                         @endguest
                     </ul>
                 </div>

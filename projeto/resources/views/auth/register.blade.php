@@ -85,10 +85,11 @@
 
                             <!-- photo -->
                             <div class="form-group row">
-                                <label for="profile_photo" class="col-md-4 col-form-label text-md-right">{{ __('Profile Photo (optional)') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="photo" type="file" accept="image/*" class="form-control" name="profile_photo">
+                                <label for="" class="col-md-4 col-form-label text-md-right">{{ __('Profile Photo (optional)') }}</label>
+                                <div  class="col-md-6">
+                                    <input id="photo" type="file" accept="image/*" class="custom-file-input" name="profile_photo">
+                                    <label class="custom-file-label" for="profile_photo"
+                                           class="col-md-3 col-form-label text-md-right">Browse</label>
 
                                     @if ($errors->has('profile_photo'))
                                         <span class="invalid-feedback">
@@ -97,12 +98,14 @@
                                     @endif
                                 </div>
                             </div>
-
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
+                                <a class="btn btn-danger" style="color:white;">
+                                    {{ __('Cancel') }}
+                                </a>
                             </div>
                         </div>
                     </form>
