@@ -2,44 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
 
-    public function index()
-    {
-
-    }
-
-    public function create()
-    {
-
-    }
-
-    public function store(Request $request)
-    {
-
-    }
-
-    public function show($id)
-    {
-
-    }
-
-    public function edit($id)
-    {
-
-    }
-
-
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    public function destroy($id)
-    {
-
+    public function listAccounts() {
+        $accounts = Account::paginate(10);
+        return view('accounts.list', compact('accounts'));
     }
 }

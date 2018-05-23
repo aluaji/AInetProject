@@ -22,3 +22,12 @@ Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroup
 Route::get('/accounts/{user}', 'AccountController@create')->name('AllAccounts');
 
 Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');
+
+
+
+Route::get('/uploadfile','UploadFileController@index');
+Route::post('/uploadfile','UploadFileController@showUploadFile');
+Route::get('/form',function(){
+    return view('form');
+});
+Route::get('/accounts', 'AccountController@listAccounts')->name('accounts.list');
