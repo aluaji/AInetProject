@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Personal Finance Assitance') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -70,7 +70,8 @@
                                 </div>
                             </li>
                             <li>
-                                <img src=" {{ Auth::user()->profile_photo }}" height="40" width="40" style="border-radius: 30px;">
+                                <img src="{{ Storage::url(Auth::user()->profile_photo)}}" height="42" width="42"
+                                     style="border-radius: 100px;">
                             </li>
                         @endguest
                     </ul>
