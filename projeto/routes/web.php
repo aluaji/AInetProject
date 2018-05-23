@@ -18,4 +18,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 
-Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('auth');
+Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');

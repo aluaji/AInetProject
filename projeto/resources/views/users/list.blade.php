@@ -9,8 +9,6 @@
                     <div class="card-header">List of Users</div>
 
                     <div class="card-body">
-
-                        @if(Auth::user()->admin == 1)
                             <table class="table">
                                 <thead class="thead-dark">
                                 <tr>
@@ -47,7 +45,6 @@
                                 </tbody>
                             </table>
                             {{ $users->links() }}
-                        @endif
                     </div>
                 </div>
             </div>
