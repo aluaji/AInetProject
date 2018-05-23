@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Http\Request;
+
 
 class UserController extends Controller
 {
 
-    public function welcomePage() {
-        $number_of_rows = User::get()->count();
-        return view('welcome', compact('number_of_rows'));
+    public function listUsers() {
+        $users = User::paginate(10);
+        return view('users.list', compact('users'));
     }
+
 }

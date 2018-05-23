@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Personal Finance Assitance') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -50,6 +50,14 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                                    <!-- profile button -->
+                                    <!<a class="dropdown-item" href="#">
+                                        {{ __('Profile') }}
+                                    </a>
+
+                                    <!-- ---------------------------------------------------------------------->
+
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -60,6 +68,10 @@
                                         @csrf
                                     </form>
                                 </div>
+                            </li>
+                            <li>
+                                <img src="{{ Storage::url(Auth::user()->profile_photo)}}" height="42" width="42"
+                                     style="border-radius: 100px;">
                             </li>
                         @endguest
                     </ul>

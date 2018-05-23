@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -49,9 +51,11 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|string|max:255',
+            'name' => 'required|regex:/^[\pL\s]+$/u',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => 'required|string|min:3|confirmed',
+            'phone' => 'digits:9|nullable',
+            'profile_photo' => 'image|mimes:jpeg,png,jpg'
         ]);
     }
 
@@ -63,10 +67,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $path = null;
+        if(Input::hasFile('profile_photo')){
+            if(Input::file('profile_photo')->isValid()){
+                $path = Storage::putFile('public/profiles', Input::file('profile_photo'));
+            }
+        }
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'phone' => $data['phone'],
+            'profile_photo' => $path
         ]);
     }
 }
