@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Projecto AInet.iml" filepath="$PROJECT_DIR$/.idea/Projecto AInet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/projeto.iml" filepath="$PROJECT_DIR$/.idea/projeto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ws5/.idea/ws5.iml" filepath="$PROJECT_DIR$/../ws5/.idea/ws5.iml" />
     </modules>
   </component>
 </project>

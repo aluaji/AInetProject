@@ -73,6 +73,15 @@
       <path value="$PROJECT_DIR$/projeto/vendor/laravel/tinker" />
       <path value="$PROJECT_DIR$/projeto/vendor/psy/psysh" />
       <path value="$PROJECT_DIR$/projeto/vendor/laravel/framework" />
+      <path value="$PROJECT_DIR$/projeto/vendor/doctrine/cache" />
+      <path value="$PROJECT_DIR$/projeto/vendor/doctrine/dbal" />
+      <path value="$PROJECT_DIR$/projeto/vendor/doctrine/common" />
+      <path value="$PROJECT_DIR$/projeto/vendor/doctrine/collections" />
+      <path value="$PROJECT_DIR$/projeto/vendor/doctrine/annotations" />
+      <path value="$PROJECT_DIR$/projeto/vendor/barryvdh/laravel-debugbar" />
+      <path value="$PROJECT_DIR$/projeto/vendor/maximebf/debugbar" />
+      <path value="$PROJECT_DIR$/projeto/vendor/illuminate/html" />
+      <path value="$PROJECT_DIR$/projeto/vendor/laravelcollective/html" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />

@@ -12,4 +12,13 @@ class AccountController extends Controller
         $accounts = Account::paginate(10);
         return view('accounts.list', compact('accounts'));
     }
+
+
+
+    public function openAccount() {
+    }
+    public function closeAccount() {
+    }
+    public function reopenAccount() {
+    }
 }
