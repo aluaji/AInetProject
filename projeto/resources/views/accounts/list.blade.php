@@ -43,7 +43,6 @@
                                         <td> {{ $account->created_at }}</td>
                                         <td> {{ $account->start_balance }}</td>
                                         <td> {{ $account->current_balance }}</td>
-                                        <td> <button type="button">Add File</button> </td>
                                     </tr>
                                 @endif
                             @endforeach

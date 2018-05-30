@@ -29,3 +29,4 @@ Route::get('/me', function () {
     return view('views.auth.passwords.changePasswordView');
 })->name('users.changePasswordView');
 
+Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
