@@ -6,6 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Account extends Model
 {
-    private $open = array();
-    private $closed = array();
+    private $accountOpened = array('Opened');
+    private $accountClosed = array('Closed');
 }

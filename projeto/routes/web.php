@@ -19,7 +19,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/me/associates', 'AssociateMembersController@viewMembersMyGroup')->name('MemberList');
 Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
-Route::get('/accounts/{user}', 'AccountController@create')->name('AllAccounts');
+Route::get('/accounts/{user}', 'AccountController@listAccounts' , function($user) {
+    return 'User= '.$user->id;
+})->where('user', '$user')->name('AllAccounts');
+Route::get('/account/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
 
 Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');
 
