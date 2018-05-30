@@ -14,16 +14,11 @@
                         </div>
                     @endif
 
-                        <img src="{{ Storage::url(Auth::user()->profile_photo)}}" height="80" width="80"
-                             style="border-radius: 100px;">
-
                     @if(Auth::user()->admin == 1)
-                            <a class="btn btn-link" href="{{ route('users.list') }}">
+                            <a class="btn btn-info" href="{{ route('users.list') }}">
                                 {{ __('List of Users') }}
                             </a>
                      @endif
-
-                    You are logged in!
                 </div>
             </div>
         </div>

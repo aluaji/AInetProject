@@ -134,6 +134,6 @@ class UserStory22CTest extends UserStory22Test
         $trx = $this->seedTransactions($this->account, 'revenue', 3000, 50, -1);
         $split = $this->latest();
         $this->propagateDeleteAt($trx, $split, true);
-        $this->assertQueryDateClause($split->date->format('Y-m-d'));
+        $this->assertQueryDateClause($split->date);
     }
 }

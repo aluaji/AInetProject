@@ -25,8 +25,10 @@
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Welcome Page') }}
                 </a>
+
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -52,9 +54,13 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                                     <!-- profile button -->
-                                    <!<a class="dropdown-item" href="#">
+                                    <a class="dropdown-item" href="#">
                                         {{ __('Profile') }}
                                     </a>
+                                        <a class="dropdown-item" href="{{route('users.changePasswordView' )}}">
+                                            {{ __('Change Password') }}
+                                        </a>
+
 
                                     <!-- ---------------------------------------------------------------------->
 
@@ -68,6 +74,7 @@
                                         @csrf
                                     </form>
                                 </div>
+
                             </li>
                             <li>
                                 <img src="{{ Storage::url(Auth::user()->profile_photo)}}" height="42" width="42"
@@ -80,6 +87,7 @@
         </nav>
 
         <main class="py-4">
+
             @yield('content')
         </main>
     </div>

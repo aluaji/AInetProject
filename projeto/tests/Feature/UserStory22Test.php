@@ -138,7 +138,7 @@ abstract class UserStory22Test extends BaseAccountsTest
             ->orderBy('date')
             ->orderBy('created_at')
             ->get();
-        dd($transactions);
+        // dd($transactions);
     }
 
     protected function startQueryLogging()
@@ -154,20 +154,23 @@ abstract class UserStory22Test extends BaseAccountsTest
         DB::connection()->flushQueryLog();
     }
 
-    protected function assertQueryDateClause(string $dateClause)
+    protected function assertQueryDateClause(Carbon $date)
     {
-        $bindings = $this->queries->filter(function ($entry) {
+        $geDate = $date->format('Y-m-d');
+        $gDate = $date->subDays(1)->format('Y-m-d');
+        $queries = $this->queries->filter(function ($entry) {
             $query = $entry['query'];
             return
                 str_contains($query, 'from "movements"') &&
                 str_contains($query, '"date"') &&
                 !str_contains($query, ' limit ');
-        })->pluck('bindings');
-        if ($bindings->count() == 0) {
+        });
+        if ($queries->count() == 0) {
             $this->fail('Missing date clause on movements query1');
         }
-        foreach ($bindings as $binding) {
-            $hasDateClause = collect($binding)->contains(function ($value) use ($dateClause) {
+        foreach ($queries as $query) {
+            $dateClause = str_contains($query['query'], '"date" >=') ? $geDate : $gDate;
+            $hasDateClause = collect($query['bindings'])->contains(function ($value) use ($dateClause) {
                 return starts_with($value, $dateClause);
             });
             if (!$hasDateClause) {

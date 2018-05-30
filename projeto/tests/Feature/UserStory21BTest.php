@@ -358,6 +358,37 @@ class UserStory21BTest extends BaseAccountsTest
 
     // @codingStandardsIgnoreStart
     /** @test */
+    public function update_use_proper_rule_to_validate_movement_category_id()
+    {
+        // @codingStandardsIgnoreEnd
+        // Given, When, Then
+        DB::table('movement_categories')->insert(['id' => 2000000, 'name' => 'just a new type', 'type' => 'expense']);
+
+        $account = $this->seedOpenedAccountsForUser($this->mainUser->id)
+            ->first();
+        $movement = $this->seedTransactions($account, 'expense', 1)
+            ->first();
+        $data = [
+            'movement_category_id' => 2000000,
+            'date' => $movement->date,
+            'value' => $movement->value,
+        ];
+
+        $this->actingAs($this->mainUser)
+            ->put('/movement/'.$movement->id, $data)
+            ->assertSessionHasNoErrors([
+                'value', 'movement_category_id', 'date', 'description', 'document_file', 'document_description'
+            ]);
+
+        $data['id'] = $movement->id;
+        $data['created_at'] = $movement->created_at;
+
+        $this->assertDatabaseHas('movements', $data);
+    }
+
+
+    // @codingStandardsIgnoreStart
+    /** @test */
     public function a_regular_user_can_change_movement_date()
     {
         // @codingStandardsIgnoreEnd

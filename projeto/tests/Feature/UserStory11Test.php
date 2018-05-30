@@ -91,7 +91,7 @@ class UserStory11Test extends UserStoryTestCase
 
         $this->response = $this->actingAs($this->mainUser)
             ->get('/profiles')
-            ->assertSee(asset('storage/'.$name));
+            ->assertSee(asset('storage/profiles/'.$name));
     }
 
     // @codingStandardsIgnoreStart
@@ -139,7 +139,7 @@ class UserStory11Test extends UserStoryTestCase
             ->assertStatus(200)
             ->assertSee('2d9e08d0')
             ->assertSee('836d2620')
-            ->assertDontSeeAll(['regular user', 'rootiam', 'a90eb144', 'b46c85c9']);
+            ->assertDontSeeAll(['rootiam', 'a90eb144', 'b46c85c9']);
     }
 
     // @codingStandardsIgnoreStart

@@ -9,7 +9,7 @@
                     <div class="card-header">List of Users</div>
 
                     <div class="card-body">
-                            <table class="table">
+                            <table class="table table-striped" style="text-align: center">
                                 <thead class="thead-dark">
                                 <tr>
                                     <th>#</th>
@@ -17,6 +17,7 @@
                                     <th>Email</th>
                                     <th>Type</th>
                                     <th>Status</th>
+                                    <th>Permissions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -29,15 +30,40 @@
                                             @if($user->admin == 0)
                                                 Normal User
                                             @else
-                                                Admin
+                                                Admin User
                                             @endif
                                         </td>
                                         <!-- centra os botoes na tabela -->
                                         <td style="color: white; text-align: center;">
-                                            @if($user->blocked == 1)
-                                                <a class="btn btn-danger">Unblock</a>
+                                            @if($user == Auth::user())
+                                                <a class="btn btn-secondary disabled">Unavailable</a>
                                             @else
-                                                <a class="btn btn-danger">Block</a>
+                                                <form method="post" action = "{{$user->blocked == 0 ?
+                                                 route('users.block', $user->id) : route('users.unblock', $user->id) }}">
+                                                    @csrf
+                                                    @method('patch')
+                                                    @if($user->blocked == 1)
+                                                        <button class="btn btn-danger">Unblock</button>
+                                                    @else
+                                                        <button class="btn btn-danger">Block</button>
+                                                    @endif
+                                                </form>
+                                            @endif
+                                        </td>
+                                        <td style="text-align: center">
+                                            @if($user == Auth::user())
+                                                <a class="btn btn-secondary disabled">Unavailable</a>
+                                            @else
+                                                <form method="post" action = "{{$user->admin == 0 ?
+                                                 route('users.promote', $user->id) : route('users.demote', $user->id) }}">
+                                                    @csrf
+                                                    @method('patch')
+                                                    @if($user->admin == 1)
+                                                        <button class="btn btn-warning">Demote</button>
+                                                    @else
+                                                        <button class="btn btn-warning">Promote</button>
+                                                    @endif
+                                                </form>
                                             @endif
                                         </td>
                                     </tr>

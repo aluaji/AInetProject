@@ -224,6 +224,6 @@ class UserStory22BTest extends UserStory22Test
         $split = $this->latest();
         $insertion = $split->date->addDays(1);
         $this->propagateEditAt($trx, 'revenue', 0.25, $split, $insertion, $insertion->format('Y-m-d'), true);
-        $this->assertQueryDateClause($insertion->format('Y-m-d'));
+        $this->assertQueryDateClause($insertion);
     }
 }

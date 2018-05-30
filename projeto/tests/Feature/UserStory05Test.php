@@ -51,8 +51,16 @@ class UserStory05Test extends UserStoryTestCase
         $this->response = $this->actingAs($this->adminUser)
             ->get('/users')
             ->assertStatus(200)
-            ->assertSeeCount('blocked', 2, 'blocked users count mismatch')
-            ->assertSeeCount('admin', 3, 'admin users count mismatch');
+            ->assertPatternCount(
+                '/class\="\s*user\-is\-blocked\s*/u',
+                2,
+                'blocked users count mismatch. Ensure that the class user-is-blocked is applied to a blocked user.'
+            )
+            ->assertPatternCount(
+                '/class\="\s*user\-is\-admin\s*/u',
+                3,
+                'admin users count mismatch. Ensure that the user-is-admin is applied to an admin user.'
+            );
 
         User::all()->each(function ($user) {
             $this->response->assertSee($user->name);

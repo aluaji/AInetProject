@@ -86,26 +86,6 @@ class UserStory18Test extends BaseAccountsTest
 
     // @codingStandardsIgnoreStart
     /** @test */
-    public function account_update_fails_with_existing_type()
-    {
-        // @codingStandardsIgnoreEnd
-        // Given, When, Then
-        $account = $this->seedOpenedAccountsForUser($this->mainUser->id)
-            ->first();
-        $data = [
-            'account_type_id' => $this->types[1]->id,
-            'code' => $this->faker->uuid,
-            'date' => Carbon::now()->format('Y-m-d'),
-            'start_balance' => 0,
-        ];
-        $this->actingAs($this->mainUser)
-            ->put('/account/'.$account->id, $data)
-            ->assertSessionHasErrors(['account_type_id'])
-            ->assertSessionHasNoErrors(['description', 'code', 'date', 'start_balance']);
-    }
-
-    // @codingStandardsIgnoreStart
-    /** @test */
     public function account_update_fails_with_non_unique_code()
     {
         // @codingStandardsIgnoreEnd
@@ -228,7 +208,8 @@ class UserStory18Test extends BaseAccountsTest
 
         $this->actingAs($this->mainUser)
             ->put('/account/'.$account->id, $data)
-            ->assertSuccessfulOrRedirect();
+            ->assertSuccessfulOrRedirect()
+            ->assertSessionHasNoErrors(['code']);
 
         $this->assertDatabaseHas('accounts', ['id' => $account->id, 'code' => $data['code']]);
     }

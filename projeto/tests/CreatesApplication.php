@@ -26,6 +26,7 @@ trait CreatesApplication
         TestResponse::macro('assertSessionHasNoErrors', function ($keys = [], $format = null, $errorBag = 'default') {
             $bag = app('session.store')->get('errors');
             if (is_null($bag)) {
+                PHPUnit::assertTrue(true);
                 return $this;
             }
 
@@ -48,6 +49,13 @@ trait CreatesApplication
             $haystack = \mb_strtolower($this->getContent());
             $needle = \mb_strtolower($string);
             PHPUnit::assertEquals($occorrences, \mb_substr_count($haystack, $needle), $message);
+
+            return $this;
+        });
+
+        TestResponse::macro('assertPatternCount', function ($pattern, $occorrences = 1, $message = '') {
+            $haystack = \mb_strtolower($this->getContent());
+            PHPUnit::assertEquals($occorrences, preg_match_all($pattern, $haystack), $message);
 
             return $this;
         });

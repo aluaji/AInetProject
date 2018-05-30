@@ -30,6 +30,17 @@ class UserStory02Test extends UserStoryTestCase
 
     // @codingStandardsIgnoreStart
     /** @test */
+    public function the_register_use_proper_enctype()
+    {
+        // @codingStandardsIgnoreEnd
+        // Arrange, Act, Assert
+        $this->get('/register')
+            ->assertStatus(200)
+            ->assertSee('enctype="multipart/form-data"');
+    }
+
+    // @codingStandardsIgnoreStart
+    /** @test */
     public function a_register_fails_with_empty_form()
     {
         // @codingStandardsIgnoreEnd
