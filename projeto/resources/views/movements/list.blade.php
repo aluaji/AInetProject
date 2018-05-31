@@ -4,7 +4,7 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">My Movements</div>
                         <div class="card-body">
@@ -37,8 +37,17 @@
                                         <td> {{ $movement->end_balance }}</td>
                                         <td> {{ $movement->description }}</td>
                                         <td> {{ $movement->type }}</td>
-                                        <td> {{ $movement->document_id }}</td>
-                                        <td> {{ $movement->created_at }}</td>
+                                        <td>
+                                        <a class="btn btn-info"
+                                        @if($movement->document_id == null)
+                                        style="display: none;"
+                                        @else
+                                        href="{{ route('documents.get', ['{document}' => $movement->document_id]) }}"
+                                        @endif
+                                        >View Document
+                                        </a>
+                                        </td>
+                                        <td>{{ $movement->created_at }}</td>
                                     </tr>
                                 @endforeach
                                                 </tbody>

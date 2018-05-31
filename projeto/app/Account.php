@@ -8,4 +8,8 @@ class Account extends Model
 {
     private $accountOpened = array('Opened');
     private $accountClosed = array('Closed');
+
+    public function movement() {
+        return $this->hasMany('App\Movement');
+    }
 }

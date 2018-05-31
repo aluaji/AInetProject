@@ -18,6 +18,10 @@
                             <a class="btn btn-info" href="{{ route('users.list') }}">
                                 {{ __('List of Users') }}
                             </a>
+
+                            <a class="btn btn-info" href="{{ route('movements.list') }}">
+                                {{ __('List of Movements') }}
+                            </a>
                      @endif
                 </div>
             </div>

@@ -30,3 +30,5 @@ Route::get('/me', function () {
 })->name('users.changePasswordView');
 
 Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
+
+Route::get('/documents/{document}', 'DocumentController@getDocument')->name('documents.get');
