@@ -3,9 +3,21 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Model
 {
-    private $accountOpened = array('Opened');
-    private $accountClosed = array('Closed');
+    use SoftDeletes;
+
+    public $timestamps = false;
+
+
+    public function account_type() {
+
+
+
+        return $this->hasOne('App\AccountType', 'id', 'account_type_id');
+
+
+    }
 }

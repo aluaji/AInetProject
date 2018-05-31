@@ -19,6 +19,10 @@
                                 {{ __('List of Users') }}
                             </a>
                      @endif
+                    <a class="btn btn-info" href="{{ route('AllAccounts', Auth::user()->id) }}">
+                        {{ __('List of Accounts') }}
+                    </a>
+
                 </div>
             </div>
         </div>
