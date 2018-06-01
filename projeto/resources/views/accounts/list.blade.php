@@ -8,13 +8,21 @@
                 <div class="card">
                     <div class="card-header">All Accounts</div>
                     <div class="card-body">
-                        <a class="btn btn-primary" href="{{ route('OpenedAccounts', Auth::user()->id) }}">
-                            {{ __('Opened Accounts') }}
-                        </a>
-                        <br><a class="btn btn-primary" href="{{ route('ClosedAccounts', Auth::user()->id) }}">
-                            {{ __('Closed Accounts') }}
-                        </a>
-                        </br>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{{ route('OpenedAccounts', Auth::user()->id) }}">
+                                {{ __('Opened Accounts') }}
+                            </a>
+                            <a class="btn btn-primary" href="{{ route('ClosedAccounts', Auth::user()->id) }}">
+                                {{ __('Closed Accounts') }}
+                            </a>
+                            <a  class="btn btn-success" href=" {{ route('users.account.create') }} ">
+                                {{ __('Create an Account') }}
+                            </a>
+                            <a class="btn btn-warning" href="{{ route('home') }}">
+                                {{ __('Home') }}
+                            </a>
+                        </div>
+
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
@@ -46,9 +54,9 @@
                             </tbody>
                         </table>
 
-                        @if(count($accounts) > 10)
+                        {{--@if(count($accounts) > 10)--}}
                         {{ $accounts->links() }}
-                        @endif
+                        {{--@endif--}}
                     </div>
                 </div>
             </div>

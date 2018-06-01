@@ -26,6 +26,8 @@ Route::get('/account/{user}/closed', 'AccountController@listClosedAccounts')->na
 Route::delete('/account/{account}', 'AccountController@deleteAccount')->name('users.account.delete');
 Route::patch('/account/{account}/close', 'AccountController@closeAccount')->name('users.account.close');
 Route::patch('/account/{account}/reopen', 'AccountController@reopenAccount')->name('users.account.reopen');
+Route::get('/account', 'AccountController@createAccount')->name('users.account.create');
+Route::post('/account', 'AccountController@storeAccount')->name('users.account.store');
 
 Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');
 

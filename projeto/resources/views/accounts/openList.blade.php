@@ -6,15 +6,18 @@
             <div class="col-md-10">
                 <div class="card">
                     <div class="card-header">Opened Accounts</div>
-
                     <div class="card-body">
-                        <a class="btn btn-primary" href="{{ route('AllAccounts', Auth::user()->id) }}">
-                            {{ __('All Accounts') }}
-                        </a>
-                        <br><a class="btn btn-primary" href="{{ route('ClosedAccounts', Auth::user()->id) }}">
-                            {{ __('Closed Accounts') }}
-                        </a>
-                        </br>
+                        <div class="btn-group">
+                            <a class="btn btn-primary" href="{{ route('AllAccounts', Auth::user()->id) }}">
+                                {{ __('All Accounts') }}
+                            </a>
+                            <a class="btn btn-primary" href="{{ route('ClosedAccounts', Auth::user()->id) }}">
+                                {{ __('Closed Accounts') }}
+                            </a>
+                            <a class="btn btn-warning" href="{{ route('home') }}">
+                                {{ __('Home') }}
+                            </a>
+                        </div>
                         <table class="table">
                             <thead class="thead-dark">
                             <tr>
