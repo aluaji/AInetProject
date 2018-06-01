@@ -33,6 +33,7 @@
                                 <th>Created On</th>
                                 <th>Start Balance</th>
                                 <th>Current Balance</th>
+                                <th><center>Action</center></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -48,12 +49,17 @@
                                         <td> {{ $account->created_at }}</td>
                                         <td> {{ $account->start_balance }}</td>
                                         <td> {{ $account->current_balance }}</td>
+                                        <td>
+                                            <a class="btn btn-warning" href="{{ route('users.account.edit', $account->id) }}">
+                                                {{ __('Edit Account') }}
+                                            </a>
+
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach
                             </tbody>
                         </table>
-
                         {{--@if(count($accounts) > 10)--}}
                         {{ $accounts->links() }}
                         {{--@endif--}}

@@ -88,4 +88,28 @@ class AccountController extends Controller
 
 
     }
+
+    public function editAccount($id) {
+
+        $account = Account::findOrFail($id);
+        return view('accounts.editAccount', compact('account'));
+
+    }
+
+    public function updateAccount(Request $request, $id) {
+
+        $account = Account::findOrFail($id);
+
+        $account->account_type_id = $request->input('account_type_id');
+        $account->code = $request->input('code');
+        $account->start_balance = $request->input('start_balance');
+        $account->description = $request->input('description');
+
+
+        $account->save();
+        return Redirect::route('AllAccounts',
+            array(Auth::user()->id))
+            ->with('message', 'Your account has been edited!');
+
+    }
 }

@@ -28,6 +28,8 @@ Route::patch('/account/{account}/close', 'AccountController@closeAccount')->name
 Route::patch('/account/{account}/reopen', 'AccountController@reopenAccount')->name('users.account.reopen');
 Route::get('/account', 'AccountController@createAccount')->name('users.account.create');
 Route::post('/account', 'AccountController@storeAccount')->name('users.account.store');
+Route::get('/account/{account}', 'AccountController@editAccount')->name('users.account.edit');
+Route::put('/account/{account}', 'AccountController@updateAccount')->name('users.account.update');
 
 Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');
 
