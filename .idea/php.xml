@@ -82,6 +82,7 @@
       <path value="$PROJECT_DIR$/projeto/vendor/maximebf/debugbar" />
       <path value="$PROJECT_DIR$/projeto/vendor/illuminate/html" />
       <path value="$PROJECT_DIR$/projeto/vendor/laravelcollective/html" />
+      <path value="$PROJECT_DIR$/projeto/vendor/symfony/polyfill-ctype" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.1" />
