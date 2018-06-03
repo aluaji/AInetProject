@@ -37,7 +37,7 @@ class AccountsSeeder extends Seeder
         $this->command->info('');
 
         $this->command->info('Creating '.
-                             $this->numberOfAccountsWithPositiveStartBalance.' accounts with zero start balance...');
+                             $this->numberOfAccountsWithPositiveStartBalance.' accounts with positive start balance...');
         for ($i = 0; $i < $this->numberOfAccountsWithPositiveStartBalance; ++$i) {
             $account = $this->fakeAccount($faker, $accountTypes->random(), $owners->random());
             $amount = $faker->numberBetween($this->minBalance, $this->maxBalance) / 100.0;
@@ -47,7 +47,7 @@ class AccountsSeeder extends Seeder
         $this->command->info('');
 
         $this->command->info('Creating '.
-                             $this->numberOfAccountsWithNegativeStartBalance.' accounts with zero start balance...');
+                             $this->numberOfAccountsWithNegativeStartBalance.' accounts with negative start balance...');
         for ($i = 0; $i < $this->numberOfAccountsWithNegativeStartBalance; ++$i) {
             $account = $this->fakeAccount($faker, $accountTypes->random(), $owners->random());
             $amount = $faker->numberBetween(-$this->maxBalance, -$this->minBalance) / 100.0;
@@ -57,7 +57,7 @@ class AccountsSeeder extends Seeder
         $this->command->info('');
 
         $this->command->info('Creating '.
-                             $this->numberOfDeletedAccounts.' accounts with zero start balance...');
+                             $this->numberOfDeletedAccounts.' closed accounts...');
         for ($i = 0; $i < $this->numberOfDeletedAccounts; ++$i) {
             $account = $this->fakeAccount($faker, $accountTypes->random(), $owners->random());
             $amount = $faker->numberBetween(-$this->maxBalance, $this->maxBalance) / 100.0;

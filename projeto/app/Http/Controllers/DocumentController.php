@@ -2,27 +2,43 @@
 
 namespace App\Http\Controllers;
 
-use App\Account;
 use App\Movement;
 use Illuminate\Support\Facades\Storage;
 use App\Document;
 
 class DocumentController extends Controller
 {
-    public function getDocument($document) {
-        return Storage::download($this->getOwnerId($document) . '/' .
-            $this->getOwnerId($document) . explode('.', $this->getName($document))[1]);
+
+    public function getMovement($movement) {
+        return Movement::findOrFail($movement);
+    }
+    private function getDocumentPath($movement) {
+        $movement = $this->getMovement($movement);
+        $document_id = $movement->document_id;
+        $document = Document::findOrFail($document_id);
+        return 'documents/' . $movement->account_id . '/' . $movement->id . '.' . $document->type;
     }
 
-    public function getName($document) {
-        $document_object = Document::findOrFail($document);
-        return $document_object->original_name;
+    public function downloadDocument($movement) {
+        return Storage::download($this->getDocumentPath($movement));
     }
 
-    public function getOwnerId($document) {
-        $movement = Movement::where('document_id', $document)->get();
-        $account_id = Movement::find(1)->account_id;
-        $account = Account::where('id', $account_id)->get();
-        return Account::find(1)->owner_id;
+    public function readDocument($movement) {
+        return response()->file(storage_path('app/' . $this->getDocumentPath($movement)));
+    }
+//
+    public function addDocument($movement) {
+
+//        $path = $request->file('avatar')->store('avatars');
+    }
+
+    public function removeDocument($movement) {
+
+    }
+
+    public function uploadForm() {
+        return view('movements.upload', compact('movements'));
+//        Form::file('thefile');
+//        return view('movements.upload', compact('movements'));
     }
 }

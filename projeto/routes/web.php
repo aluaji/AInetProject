@@ -31,4 +31,6 @@ Route::get('/me', function () {
 
 Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
 
-Route::get('/documents/{document}', 'DocumentController@getDocument')->name('documents.get');
+Route::get('/documents/{movement}/add', 'DocumentController@uploadForm')->name('documents.add');
+Route::get('/documents/{document}/read', 'DocumentController@readDocument')->name('documents.read');
+Route::get('/documents/{document}/download', 'DocumentController@downloadDocument')->name('documents.download');
