@@ -57,7 +57,7 @@
                                     <a class="dropdown-item" href="#">
                                         {{ __('Profile') }}
                                     </a>
-                                        <a class="dropdown-item" href="{{route('users.changePasswordView' )}}">
+                                        <a class="dropdown-item" href="{{route('user.change.password' )}}">
                                             {{ __('Change Password') }}
                                         </a>
 
@@ -77,7 +77,7 @@
 
                             </li>
                             <li>
-                                <img src="{{ Storage::url(Auth::user()->profile_photo)}}" height="42" width="42"
+                                <img src="{{ Storage::url('public/profiles/' . Auth::user()->profile_photo)}}" height="42" width="42"
                                      style="border-radius: 100px;">
                             </li>
                         @endguest

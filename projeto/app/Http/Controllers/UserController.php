@@ -3,13 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 
 class UserController extends Controller
 {
 
-    public function listUsers() {
-        $users = User::paginate(10);
+    public function listUsers(Request $request) {
+
+        $users = new User();
+        if(!empty($request->type))
+        {
+            $admin = $request->type == 'admin' ? 1 : ($request->type == 'normal' ? 0 : null);
+            $users = $users->where('admin', $admin);
+
+        }
+        if(!empty($request->status)) {
+            $blocked = $request->status == 'blocked' ? 1 : ($request->status == 'unblocked' ? 0 : null);
+            $users = $users->where('blocked', $blocked);
+        }
+        if(!empty($request->name)) {
+            $users = $users->where('name', 'LIKE', "%{$request->name}%");
+        }
+
+        $users = $users->paginate(10);
+
         return view('users.list', compact('users'));
     }
 
@@ -43,5 +62,8 @@ class UserController extends Controller
         return back();
     }
 
+    public function changeUserPasswords() {
+
+    }
 
 }
