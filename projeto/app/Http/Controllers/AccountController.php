@@ -12,20 +12,20 @@ class AccountController extends Controller
 {
 
     public function listAccounts() {
-        $accounts = Account::withTrashed()->paginate(50);
+        $accounts = Account::withTrashed()->paginate(45);
         return view('accounts.list', compact('accounts'));
 
     }
 
     public function listOpenedAccounts() {
-        $accounts = Account::withTrashed()->paginate(50);
+        $accounts = Account::withTrashed()->paginate(45);
         return view('accounts.openList', compact('accounts'));
 
     }
 
     public function listClosedAccounts() {
 
-        $accounts = Account::withTrashed()->paginate(50);
+        $accounts = Account::withTrashed()->paginate(45);
         return view('accounts.closeList', compact('accounts'));
 
     }

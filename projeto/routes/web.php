@@ -37,6 +37,9 @@ Route::get('/account', 'AccountController@createAccount')->name('users.account.c
 Route::post('/account', 'AccountController@storeAccount')->name('users.account.store');
 Route::get('/account/{account}', 'AccountController@editAccount')->name('users.account.edit');
 Route::put('/account/{account}', 'AccountController@updateAccount')->name('users.account.update');
+Route::get('/movements/{account}', 'MovementController@listMovements')->name('movements.list');
+Route::get('/movements/{account}/create', 'MovementController@createMovement')->name('movements.create');
+Route::post('/movements/{account}/create', 'MovementController@storeMovement')->name('movements.store');
 
 Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');
 
@@ -71,4 +74,3 @@ Route::post('/uploadfile','UploadFileController@showUploadFile');
 Route::get('/form',function(){
     return view('form');
 });
-Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
