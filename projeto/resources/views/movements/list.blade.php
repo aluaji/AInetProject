@@ -4,7 +4,7 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">My Movements</div>
                     <div class="card-body">
@@ -23,7 +23,7 @@
                                 <th>End Balance</th>
                                 <th>Description</th>
                                 <th>Type</th>
-                                <th>Document ID</th>
+                                <th>Associated Document</th>
                                 <th>Created At</th>
                             </tr>
                             </thead>
@@ -40,7 +40,34 @@
                                             <td> {{ $movement->end_balance }}</td>
                                             <td> {{ $movement->description }}</td>
                                             <td> {{ $movement->type }}</td>
-                                            <td> {{ $movement->document_id }}</td>
+                                            <td>
+                                                <a class="btn btn-outline-info"
+                                                   @if($movement->document_id != null)
+                                                   style="display: none;"
+                                                   @else
+                                                   href="{{ route('documents.add', ['movement'=>$movement]) }}"
+                                                   @endif
+                                                   target="_blank"
+                                                >Upload Document
+                                                </a>
+                                                <a class="btn btn-info"
+                                                   @if($movement->document_id == null)
+                                                   style="display: none;"
+                                                   @else
+                                                   href="{{ route('documents.read', ['movement'=>$movement]) }}"
+                                                   @endif
+                                                   target="_blank"
+                                                >View Document
+                                                </a>
+                                                <a class="btn btn-info"
+                                                   @if($movement->document_id == null)
+                                                   style="display: none;"
+                                                   @else
+                                                   href="{{ route('documents.download', ['movement'=>$movement]) }}"
+                                                        @endif
+                                                >Download Document
+                                                </a>
+                                            </td>
                                             <td> {{ $movement->created_at }}</td>
                                         </tr>
                             @endforeach

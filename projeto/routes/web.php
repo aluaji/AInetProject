@@ -74,3 +74,9 @@ Route::post('/uploadfile','UploadFileController@showUploadFile');
 Route::get('/form',function(){
     return view('form');
 });
+
+Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
+
+Route::get('/documents/{movement}/add', 'DocumentController@uploadForm')->name('documents.add');
+Route::get('/documents/{document}/read', 'DocumentController@readDocument')->name('documents.read');
+Route::get('/documents/{document}/download', 'DocumentController@downloadDocument')->name('documents.download');

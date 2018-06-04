@@ -14,7 +14,7 @@
                             </div>
                         @endif
 
-                        @if(Auth::user()->admin == 1)
+                    @if(Auth::user()->admin == 1)
                             <a class="btn btn-info" href="{{ route('users.list') }}">
                                 {{ __('List of Users') }}
                             </a>
