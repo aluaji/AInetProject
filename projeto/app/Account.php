@@ -23,4 +23,10 @@ class Account extends Model
         return $this->hasOne('App\AccountType', 'id', 'account_type_id');
     }
 
+    public function movement() {
+
+        return $this->hasMany('App\Movement', 'account_id', 'id');
+    }
+
+
 }
