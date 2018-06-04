@@ -62,8 +62,13 @@ class UserController extends Controller
         return back();
     }
 
-    public function changeUserPasswords() {
-
+    public function showProfile() {
+        return view('users.userProfile');
     }
+
+    public function changeUserPasswordView() {
+        return view('auth.passwords.changePasswordView');
+    }
+
 
 }

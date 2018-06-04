@@ -48,14 +48,14 @@ class TransactionsSeeder extends Seeder
         while ($count > 0) {
             $count--;
             $isExpense = $faker->boolean;
-            $amount = $faker->numberBetween($this->minAmountInCents, $this->maxAmountInCents);
+            $value = $faker->numberBetween($this->minAmountInCents, $this->maxAmountInCents);
 
             $account_id = $account->id;
             $movement_category_id = $isExpense ? $expenses->random() : $revenues->random();
             $date = $date->addMinutes($faker->numberBetween(0, 48 * 60));
-            $value = $isExpense ? -$amount : $amount;
+            $amount = $isExpense ? -$value : $value;
             $start_balance = $balance / 100.0;
-            $balance += $value;
+            $balance += $amount;
             $end_balance = $balance / 100.0;
             $value /= 100.0;
             $description = $faker->randomElement([null, $faker->realText($faker->numberBetween(10, 25))]);

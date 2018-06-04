@@ -15,7 +15,14 @@
 Route::get('/', 'WelcomeController@welcomePageCounter')->name('welcome');
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/me', 'UserController@showProfile')->name('users.showProfille');
+    Route::get('/me/password', 'UserController@changeUserPasswordView')->name('user.view.change.password');
+});
+
+
 
 Route::get('/me/associates', 'AssociateMembersController@viewMembersMyGroup')->name('MemberList');
 Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
@@ -45,9 +52,10 @@ Route::PATCH('/users/{user}/demote', 'UserController@changeUserPermissions')->na
 
 Route::get('/me/associates', 'AssociateMembersController@viewMembersMyGroup')->name('MemberList');
 Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
-Route::get('/accounts/{user}', 'AccountController@listAccounts' , function($user) {
-    return 'User= '.$user->id;
-})->where('user', '$user')->name('AllAccounts');
+
+Route::get('/accounts/{user}', 'AccountController@listAccounts')->name('AllAccounts');
+
+
 Route::get('/account/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
 
 Route::get('/uploadfile','UploadFileController@index');
@@ -57,8 +65,6 @@ Route::get('/form',function(){
 });
 Route::get('/accounts', 'AccountController@listAccounts')->name('accounts.list');
 
-//UserStrory 9
-Route::PATCH('/me/password', 'UserController@changeUserPassword')->name('user.change.password');
 
 Route::get('/uploadfile','UploadFileController@index');
 Route::post('/uploadfile','UploadFileController@showUploadFile');

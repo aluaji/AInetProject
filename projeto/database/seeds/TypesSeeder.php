@@ -26,10 +26,6 @@ class TypesSeeder extends Seeder
             ['type' => 'expense', 'name' => 'electricity'],
             ['type' => 'expense', 'name' => 'phone'],
             ['type' => 'expense', 'name' => 'fuel'],
-            ['type' => 'expense', 'name' => 'insurance'],
-            ['type' => 'expense', 'name' => 'entertainment'],
-            ['type' => 'expense', 'name' => 'culture'],
-            ['type' => 'expense', 'name' => 'trips'],
             ['type' => 'expense', 'name' => 'mortgage payment'],
         ]);
 

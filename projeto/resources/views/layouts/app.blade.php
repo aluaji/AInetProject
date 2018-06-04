@@ -54,11 +54,8 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                                     <!-- profile button -->
-                                    <a class="dropdown-item" href="#">
-                                        {{ __('Profile') }}
-                                    </a>
-                                        <a class="dropdown-item" href="{{route('user.change.password' )}}">
-                                            {{ __('Change Password') }}
+                                        <a class="dropdown-item" href="{{route('users.showProfille' )}}">
+                                            {{ __('Profile') }}
                                         </a>
 
 
