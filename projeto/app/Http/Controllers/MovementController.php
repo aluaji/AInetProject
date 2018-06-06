@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Document;
 use App\Movement;
 use App\Account;
 use Illuminate\Http\Request;

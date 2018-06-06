@@ -45,7 +45,7 @@
                                                    @if($movement->document_id != null)
                                                    style="display: none;"
                                                    @else
-                                                   href="{{ route('documents.upload', $movement->id) }}"
+                                                   href="{{ route('document.upload', $movement->id) }}"
                                                    @endif
                                                 >Upload Document
                                                 </a>
@@ -53,7 +53,7 @@
                                                    @if($movement->document_id == null)
                                                    style="display: none;"
                                                    @else
-                                                   href="{{ route('documents.read', $movement->id) }}"
+                                                   href="{{ route('document.read', $movement->document->id) }}"
                                                    @endif
                                                    target="_blank"
                                                 >View Document
@@ -62,9 +62,17 @@
                                                    @if($movement->document_id == null)
                                                    style="display: none;"
                                                    @else
-                                                   href="{{ route('documents.download', $movement->id) }}"
+                                                   href="{{ route('document.download', $movement->document->id) }}"
                                                         @endif
                                                 >Download Document
+                                                </a>
+                                                <a class="btn btn-danger"
+                                                   @if($movement->document_id == null)
+                                                   style="display: none;"
+                                                   @else
+                                                   href="{{ route('document.delete', $movement->id) }}"
+                                                        @endif
+                                                >Delete Document
                                                 </a>
                                             </td>
                                             <td> {{ $movement->created_at }}</td>

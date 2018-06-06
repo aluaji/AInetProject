@@ -53,9 +53,10 @@ Route::get('/form',function(){
     return view('form');
 });
 
-Route::get('/documents/{movement}/upload', 'DocumentController@uploadForm')->name('documents.upload');
-Route::post('/documents/{movement}/add', 'DocumentController@addDocument')->name('documents.add');
-Route::get('/documents/{document}/read', 'DocumentController@readDocument')->name('documents.read');
-Route::get('/documents/{document}/download', 'DocumentController@downloadDocument')->name('documents.download');
+Route::get('/documents/{movement}', 'DocumentController@uploadForm')->name('document.upload');
+Route::post('/documents/{movement}', 'DocumentController@addDocument')->name('document.add');
+Route::delete('/document/{document}', 'DocumentController@deleteDocument')->name('document.delete');
+//Route::get('/document/{document}', 'DocumentController@readDocument')->name('document.read');
+Route::get('/document/{document}', 'DocumentController@downloadDocument')->name('document.download');
 
 Route::get('/dashboard/{user}', 'DashboardController@index')->name('dashboard');
