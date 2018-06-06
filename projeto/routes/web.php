@@ -38,7 +38,6 @@ Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware(
 
 Route::get('/users', 'UserController@listUsers')->name('users.list')->middleware('admin');
 
-
 Route::PATCH('/users/{user}/block', 'UserController@changeUserStatus')->name('users.block')->middleware('admin');
 Route::PATCH('/users/{user}/unblock', 'UserController@changeUserStatus')->name('users.unblock')->middleware('admin');
 Route::PATCH('/users/{user}/promote', 'UserController@changeUserPermissions')->name('users.promote')->middleware('admin');
@@ -54,8 +53,9 @@ Route::get('/form',function(){
     return view('form');
 });
 
-Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
-
-Route::get('/documents/{movement}/add', 'DocumentController@uploadForm')->name('documents.add');
+Route::get('/documents/{movement}/upload', 'DocumentController@uploadForm')->name('documents.upload');
+Route::post('/documents/{movement}/add', 'DocumentController@addDocument')->name('documents.add');
 Route::get('/documents/{document}/read', 'DocumentController@readDocument')->name('documents.read');
 Route::get('/documents/{document}/download', 'DocumentController@downloadDocument')->name('documents.download');
+
+Route::get('/dashboard/{user}', 'DashboardController@index')->name('dashboard');

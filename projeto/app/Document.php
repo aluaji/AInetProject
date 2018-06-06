@@ -9,4 +9,6 @@ class Document extends Model
     public function movement() {
         return $this->belongsTo('App\Movement');
     }
+
+    public $timestamps = false;
 }

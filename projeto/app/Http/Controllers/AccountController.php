@@ -14,7 +14,6 @@ class AccountController extends Controller
     public function listAccounts() {
         $accounts = Account::withTrashed()->paginate(45);
         return view('accounts.list', compact('accounts'));
-
     }
 
     public function listOpenedAccounts() {
@@ -111,5 +110,13 @@ class AccountController extends Controller
             array(Auth::user()->id))
             ->with('message', 'Your account has been edited!');
 
+    }
+
+    public function getAccountsBalance() {
+        $total_balance = 0;
+        foreach (Account::all() as $account) {
+            $total_balance += $account->current_balance;
+        }
+        return $total_balance;
     }
 }
