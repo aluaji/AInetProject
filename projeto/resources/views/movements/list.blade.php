@@ -29,54 +29,47 @@
                             </thead>
                             <tbody>
                             @foreach($movements as $movement)
-                                        {{--                                    <td> <button type="button" href="{{ route('documents.add') }}>Add File</button> </td>--}}
-                                        <tr>
-                                            <td> {{ $movement->id }}</td>
-                                            <td> {{ $movement->account_id }}</td>
-                                            <td> {{ $movement->movement_category->name }}</td>
-                                            <td> {{ $movement->date }}</td>
-                                            <td> {{ $movement->value }}</td>
-                                            <td> {{ $movement->start_balance }}</td>
-                                            <td> {{ $movement->end_balance }}</td>
-                                            <td> {{ $movement->description }}</td>
-                                            <td> {{ $movement->type }}</td>
-                                            <td>
-                                                <a class="btn btn-outline-info"
-                                                   @if($movement->document_id != null)
-                                                   style="display: none;"
-                                                   @else
-                                                   href="{{ route('document.upload', $movement->id) }}"
-                                                   @endif
-                                                >Upload Document
-                                                </a>
-                                                <a class="btn btn-info"
-                                                   @if($movement->document_id == null)
-                                                   style="display: none;"
-                                                   @else
-                                                   href="{{ route('document.read', $movement->document->id) }}"
-                                                   @endif
-                                                   target="_blank"
-                                                >View Document
-                                                </a>
-                                                <a class="btn btn-info"
-                                                   @if($movement->document_id == null)
-                                                   style="display: none;"
-                                                   @else
-                                                   href="{{ route('document.download', $movement->document->id) }}"
-                                                        @endif
-                                                >Download Document
-                                                </a>
-                                                <a class="btn btn-danger"
-                                                   @if($movement->document_id == null)
-                                                   style="display: none;"
-                                                   @else
-                                                   href="{{ route('document.delete', $movement->id) }}"
-                                                        @endif
-                                                >Delete Document
-                                                </a>
-                                            </td>
-                                            <td> {{ $movement->created_at }}</td>
-                                        </tr>
+                                {{--                                    <td> <button type="button" href="{{ route('documents.add') }}>Add File</button> </td>--}}
+                                <tr>
+                                    <td> {{ $movement->id }}</td>
+                                    <td> {{ $movement->account_id }}</td>
+                                    <td> {{ $movement->movement_category->name }}</td>
+                                    <td> {{ $movement->date }}</td>
+                                    <td> {{ $movement->value }}</td>
+                                    <td> {{ $movement->start_balance }}</td>
+                                    <td> {{ $movement->end_balance }}</td>
+                                    <td> {{ $movement->description }}</td>
+                                    <td> {{ $movement->type }}</td>
+                                    <td>
+                                        <a class="btn btn-outline-info btn-block"
+                                           @if($movement->document_id != null)
+                                           style="display: none;"
+                                           @else
+                                           href="{{ route('documents.upload', $movement) }}"
+                                           @endif
+                                        >Upload Document
+                                        </a>
+                                        <div class="btn-group btn-group-vertical">
+                                        <a class="btn btn-info btn-block"
+                                           @if($movement->document_id == null)
+                                           style="display: none;"
+                                           @else
+                                           href="{{ route('document.get', $movement->document) }}"
+                                           @endif
+                                        >Download Document
+                                        </a>
+                                        <a class="btn btn-danger btn-block"
+                                           @if($movement->document_id == null)
+                                           style="display: none;"
+                                           @else
+                                           href="{{ route('document.delete', $movement) }}"
+                                           @endif
+                                        >Delete Document
+                                        </a>
+                                        </div>
+                                    </td>
+                                    <td> {{ $movement->created_at }}</td>
+                                </tr>
                             @endforeach
                             </tbody>
                         </table>

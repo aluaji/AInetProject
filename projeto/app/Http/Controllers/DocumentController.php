@@ -16,9 +16,9 @@ class DocumentController extends Controller
     }
 
     private function getDocumentPath($document_id) {
-        $movement = Movement::where('document_id', '=', $document_id)->findOrFail();
-        $document_id = $movement->document_id;
         $document = Document::findOrFail($document_id);
+
+        $movement = Movement::findOrFail($document->original_name);
         return 'documents/' . $movement->account_id . '/' . $movement->id . '.' . $document->type;
     }
 
@@ -27,14 +27,10 @@ class DocumentController extends Controller
         return 'documents/' . $movement->account_id;
     }
 
-    public function downloadDocument($document_id) {
-        return Storage::download($this->getDocumentPath($document_id));
+    public function uploadForm($id) {
+        $movement = $this->getMovement($id);
+        return view('movements.upload', compact('movement'));
     }
-
-    public function readDocument($document_id) {
-        return response()->file(storage_path('app/' . $this->getDocumentPath($document_id)));
-    }
-
     public function addDocument(Request $request, $id) {
 
         $path = null;
@@ -66,8 +62,20 @@ class DocumentController extends Controller
 
     }
 
-    public function uploadForm($id) {
-        $movement = $this->getMovement($id);
-        return view('movements.upload', compact('movement'));
+
+
+    public function downloadDocument($document_id) {
+        return Storage::download($this->getDocumentPath($document_id));
+    }
+
+    public function readDocument($document_id) {
+        return response()->file(storage_path('app/' . $this->getDocumentPath($document_id)));
+    }
+
+    public function getDocument($document_id) {
+
+
+        Storage::download($this->getDocumentPath($document_id));
+        return response()->file(storage_path('app/' . $this->getDocumentPath($document_id)));
     }
 }
