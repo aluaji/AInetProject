@@ -19,13 +19,22 @@ Auth::routes();
 Route::middleware(['auth'])->group(function() {
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/me', 'UserController@showProfile')->name('users.showProfille');
-    Route::get('/me/password', 'UserController@changeUserPasswordView')->name('user.view.change.password');
+    Route::put('/me/profile', 'UserController@changeUserProfile')->name('user.view.change.profile');
+    Route::get('/me/changePassword', 'UserController@changeUserPasswordView')->name('user.view.change.password');
+    Route::patch('/me/password', 'UserController@changeUserPassword')->name('users.changePassword');
+    Route::get('/profiles', 'UserController@ViewUserProfiles')->name('users.profiles');
+    Route::get('/me/associates', 'AssociateMembersController@ViewAssociatedUser')->name('MemberList');
+
+});
+Route::middleware(['auth', 'admin'])->group(function() {
+    Route::get('/users', 'UserController@listUsers')->name('users.list');
+    Route::PATCH('/users/{user}/block', 'UserController@blockUser')->name('users.block');
+    Route::PATCH('/users/{user}/unblock', 'UserController@unblockUser')->name('users.unblock');
+    Route::PATCH('/users/{user}/promote', 'UserController@changeUserPermissions')->name('users.promote');
+    Route::PATCH('/users/{user}/demote', 'UserController@changeUserPermissions')->name('users.demote');
 });
 
-
-
-Route::get('/me/associates', 'AssociateMembersController@viewMembersMyGroup')->name('MemberList');
-Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
+//Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
 
 Route::get('/accounts/{user}', 'AccountController@listAccounts')->name('AllAccounts');
 Route::get('/account/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
@@ -41,20 +50,6 @@ Route::get('/movements/{account}', 'MovementController@listMovements')->name('mo
 Route::get('/movements/{account}/create', 'MovementController@createMovement')->name('movements.create');
 Route::post('/movements/{account}/create', 'MovementController@storeMovement')->name('movements.store');
 
-Route::get('/list', 'UserController@listUsers')->name('users.list')->middleware('admin');
-
-Route::get('/users', 'UserController@listUsers')->name('users.list')->middleware('admin');
-
-
-Route::PATCH('/users/{user}/block', 'UserController@changeUserStatus')->name('users.block')->middleware('admin');
-Route::PATCH('/users/{user}/unblock', 'UserController@changeUserStatus')->name('users.unblock')->middleware('admin');
-Route::PATCH('/users/{user}/promote', 'UserController@changeUserPermissions')->name('users.promote')->middleware('admin');
-Route::PATCH('/users/{user}/demote', 'UserController@changeUserPermissions')->name('users.demote')->middleware('admin');
-
-
-
-Route::get('/me/associates', 'AssociateMembersController@viewMembersMyGroup')->name('MemberList');
-Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
 
 Route::get('/accounts/{user}', 'AccountController@listAccounts')->name('AllAccounts');
 
@@ -74,8 +69,6 @@ Route::post('/uploadfile','UploadFileController@showUploadFile');
 Route::get('/form',function(){
     return view('form');
 });
-
-Route::get('/movements', 'MovementController@listMovements')->name('movements.list');
 
 Route::get('/documents/{movement}/add', 'DocumentController@uploadForm')->name('documents.add');
 Route::get('/documents/{document}/read', 'DocumentController@readDocument')->name('documents.read');

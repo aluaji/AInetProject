@@ -19,7 +19,6 @@ class isAdmin
         if ($request->user() && $request->user()->admin == 1) {
             return $next($request);
         }
-        abort(404);
-//        return redirect()->route('home');
+        abort(403, 'Access denied');
     }
 }
