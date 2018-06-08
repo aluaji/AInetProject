@@ -37,8 +37,8 @@ class MovementController extends Controller
         $movement->type = $request->type;
         $movement->movement_category_id = $request->movement_category_id;
         $movement->value = $request->value;
-//        $movement->document_file = $request->document_file;
-//        $movement->document_description = $request->document_description;
+        $movement->document_file = $request->document_file;
+        $movement->document_description = $request->document_description;
         $movement->date = $request->date;
         $movement->description = $request->description;
         $movement->start_balance = $account->current_balance;

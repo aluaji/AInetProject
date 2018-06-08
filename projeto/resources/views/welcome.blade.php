@@ -70,7 +70,7 @@
                 <div class="top-right links">
                     @auth
                         <a href="{{ url('/home') }}">Home</a>
-                        <img src=="C:\Ainet\projeto\projeto\database\seeds\samples\invoice.jpg"></img>
+                        <img src=="C:\Ainet\projeto\projeto\database\seeds\samples\invoice.jpg"/>
                     @else
                         <a href="{{ route('login') }}">Login</a>
                         <a href="{{ route('register') }}">Register</a>

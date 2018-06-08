@@ -45,16 +45,15 @@
                                                    @if($movement->document_id != null)
                                                    style="display: none;"
                                                    @else
-                                                   href="{{ route('documents.add', ['movement'=>$movement]) }}"
+                                                   href="{{ route('documents.upload', $movement->id) }}"
                                                    @endif
-                                                   target="_blank"
                                                 >Upload Document
                                                 </a>
                                                 <a class="btn btn-info"
                                                    @if($movement->document_id == null)
                                                    style="display: none;"
                                                    @else
-                                                   href="{{ route('documents.read', ['movement'=>$movement]) }}"
+                                                   href="{{ route('documents.read', $movement->id) }}"
                                                    @endif
                                                    target="_blank"
                                                 >View Document
@@ -63,7 +62,7 @@
                                                    @if($movement->document_id == null)
                                                    style="display: none;"
                                                    @else
-                                                   href="{{ route('documents.download', ['movement'=>$movement]) }}"
+                                                   href="{{ route('documents.download', $movement->id) }}"
                                                         @endif
                                                 >Download Document
                                                 </a>
