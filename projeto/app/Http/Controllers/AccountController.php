@@ -12,21 +12,28 @@ class AccountController extends Controller
 {
 
     public function listAccounts() {
-        $accounts = Account::withTrashed()->paginate(45);
-        return view('accounts.list', compact('accounts'));
+
+        if(Auth::check()) {
+            $accounts = Account::withTrashed()->paginate(45);
+            return view('accounts.list', compact('accounts'));
+        }
+
     }
 
     public function listOpenedAccounts() {
-        $accounts = Account::withTrashed()->paginate(45);
-        return view('accounts.openList', compact('accounts'));
 
+        if(Auth::check()) {
+            $accounts = Account::withTrashed()->paginate(45);
+            return view('accounts.openList', compact('accounts'));
+        }
     }
 
     public function listClosedAccounts() {
 
-        $accounts = Account::withTrashed()->paginate(45);
-        return view('accounts.closeList', compact('accounts'));
-
+        if(Auth::check()) {
+            $accounts = Account::withTrashed()->paginate(45);
+            return view('accounts.closeList', compact('accounts'));
+        }
     }
 
 
@@ -43,9 +50,10 @@ class AccountController extends Controller
 
         $account = Account::findOrFail($id);
 
-
         if($account->deleted_at == null) {
-            $account->forceDelete();
+            if($account->last_movement_date == null) {
+                $account->forceDelete();
+            }
         }
 
         return back();
@@ -98,12 +106,24 @@ class AccountController extends Controller
     public function updateAccount(Request $request, $id) {
 
         $account = Account::findOrFail($id);
+        $movements = $account->movement;
+
+        if($request->input('start_balance') != $account->start_balance) {
+
+            foreach($movements as $movement) {
+                $movement->start_balance += $request->input('start_balance') - $account->start_balance;
+                $movement->end_balance = $movement->start_balance + $movement->value;
+                $account->current_balance = $movement->end_balance;
+
+                $movement->save();
+            }
+
+        }
 
         $account->account_type_id = $request->input('account_type_id');
         $account->code = $request->input('code');
         $account->start_balance = $request->input('start_balance');
         $account->description = $request->input('description');
-
 
         $account->save();
         return Redirect::route('AllAccounts',

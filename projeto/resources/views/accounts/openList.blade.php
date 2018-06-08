@@ -68,7 +68,6 @@
                                             </td>
                                             <td>@if(isset($account->last_movement_date))
                                                     <a class="btn btn-danger disabled">Delete Account</a>
-
                                                 @elseif($account->current_balance != 0.00)
                                                     <a class="btn btn-danger disabled">Delete Account</a>
                                                 @else
