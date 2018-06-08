@@ -55,8 +55,8 @@ Route::get('/form',function(){
 
 Route::get('/documents/{movement}/upload', 'DocumentController@uploadForm')->name('documents.upload');
 Route::post('/documents/{movement}', 'DocumentController@addDocument')->name('documents.add');
-Route::delete('/document/{document}', 'DocumentController@deleteDocument')->name('document.delete');
 Route::get('/document/{document}', 'DocumentController@getDocument')->name('document.get');
+Route::delete('/document/{document}', 'DocumentController@deleteForm')->name('document.delete');
 
 //Route::get('/document/{document}', ['parameters'=>'DocumentController@getDocument'])->name('document.get');
 //Route::get('/document/{document}', function($parameter){

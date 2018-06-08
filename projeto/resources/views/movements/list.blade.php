@@ -62,7 +62,7 @@
                                            @if($movement->document_id == null)
                                            style="display: none;"
                                            @else
-                                           href="{{ route('document.delete', $movement) }}"
+                                           href="{{ route('document.delete', $movement->document) }}"
                                            @endif
                                         >Delete Document
                                         </a>

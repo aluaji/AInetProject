@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Movement;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Storage;
@@ -15,16 +16,8 @@ class DocumentController extends Controller
         return Movement::findOrFail($movement);
     }
 
-    private function getDocumentPath($document_id) {
-        $document = Document::findOrFail($document_id);
-
-        $movement = Movement::findOrFail($document->original_name);
-        return 'documents/' . $movement->account_id . '/' . $movement->id . '.' . $document->type;
-    }
-
-    private function createDocumentPath($movement) {
-        $movement = $this->getMovement($movement);
-        return 'documents/' . $movement->account_id;
+    private function getDocumentPath($document) {
+        return $document->movement->account_id . '/' . $document->movement->id . '.' . $document->type;
     }
 
     public function uploadForm($id) {
@@ -32,50 +25,54 @@ class DocumentController extends Controller
         return view('movements.upload', compact('movement'));
     }
     public function addDocument(Request $request, $id) {
-
+        $movement = $this->getMovement($id);
         $path = null;
         if(Input::hasFile('document_file')){
             if(Input::file('document_file')->isValid()){
-                $request->file('document_file')->storeAs($this->createDocumentPath($id)."",
-                    $id . '.' . $request->document_file->extension());
+                $path = $request->file('document_file')->storeAs(("documents/"  . $movement->account_id), $movement->id . '.' . $request->file('document_file')->extension());
             }
         }
 
         $document = new Document;
 
         $document->type = $request->document_file->extension();
-        $document->original_name = $id;
+        $document->original_name = $movement->id . '.' . $request->document_file->extension();
         $document->description = $request->document_description;
 
         $document->save();
-
-        $movement = $this->getMovement($id);
 
         $movement->document_id = $document->id;
 
         $movement->save();
 
-        return redirect()->route('movements.list', $this->getMovement($id)->account_id);
+        return redirect()->route('movements.list', $movement->account_id);
     }
 
-    public function deleteDocument($movement) {
+    public function deleteForm($document) {
 
     }
 
+    public function deleteDocument($document) {
+        $movement = $this->getMovement($document->movement->id);
 
+        $movement->document_id = null;
 
-    public function downloadDocument($document_id) {
-        return Storage::download($this->getDocumentPath($document_id));
+        $movement->save();
+
+        unlink('app/documents/' . $this->getDocumentPath($document));
+
+        $document->delete();
+
+        return redirect()->route('movements.list', $movement->account_id);
     }
 
-    public function readDocument($document_id) {
-        return response()->file(storage_path('app/' . $this->getDocumentPath($document_id)));
-    }
+//    public function downloadDocument($document_id) {
+//        return Storage::download($this->getDocumentPath($document_id));
+//    }
 
     public function getDocument($document_id) {
+        $document = Document::findOrFail($document_id);
+        return response()->file(storage_path('app/documents/' . $this->getDocumentPath($document)));
 
-
-        Storage::download($this->getDocumentPath($document_id));
-        return response()->file(storage_path('app/' . $this->getDocumentPath($document_id)));
     }
 }
