@@ -72,16 +72,14 @@
                                                     @elseif($account->current_balance != 0.00)
                                                         <a class="btn btn-danger disabled">Delete Account</a>
                                                     @elseif($account->movement()->count() == 0)
-                                                        @can('delete_account', $account->id)
-                                                            <form method="post" action = "{{ route('users.account.delete', $account->id) }}">
-                                                                @csrf
-                                                                @method('delete')
-                                                                <button class="btn btn-danger">
-                                                                    {{ __('Delete Account') }}
+                                                        <form method="post" action = "{{ route('users.account.delete', $account->id) }}">
+                                                            @csrf
+                                                            @method('delete')
+                                                            <button class="btn btn-danger">
+                                                                {{ __('Delete Account') }}
 
-                                                                </button>
-                                                            </form>
-                                                        @endcan
+                                                            </button>
+                                                        </form>
                                                     @endif
                                                 </td>
                                             </tr>

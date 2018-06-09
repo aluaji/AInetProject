@@ -64,9 +64,9 @@
                                                     @endif
                                             >Download Document
                                             </a>
-                                            <form method="post" action="{{ route('document.delete', $movement->document) }}">
-                                                @csrf
+                                            <form method="post" action="">
                                                 @method('delete')
+                                                @csrf
                                                 <button class="btn btn-danger btn-block" @if($movement->document_id == null)
                                                 style="display: none;" @endif>
                                                     {{ __('Delete Document') }}

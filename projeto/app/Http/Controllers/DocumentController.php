@@ -53,6 +53,7 @@ class DocumentController extends Controller
     }
 
     public function deleteDocument($document) {
+        dd($document);
         $movement = $this->getMovement($document->movement->id);
 
         $movement->document_id = null;

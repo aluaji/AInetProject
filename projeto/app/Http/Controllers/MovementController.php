@@ -34,6 +34,19 @@ class MovementController extends Controller
         $movement = new Movement;
         $account = Account::findOrFail($account_id);
 
+        $request->validate([
+            'type' => 'required',
+            'date' => 'date',
+            'movement_category_id' => 'required',
+            'value' => 'required|numeric',
+            'description' => 'nullable|string',
+
+        ], [
+            'type.required' => 'A type is required to proceed.',
+            'movement_category_id.required' => 'A movement category id is required to proceed',
+            'value.required' => 'A value needs to be written',
+        ]);
+
 
         $movement->account_id = $account_id;
 
@@ -67,7 +80,6 @@ class MovementController extends Controller
             array($account->id))
             ->with('message', 'Your movement has been created!');
 
-//        return back();
 
     }
 
@@ -83,10 +95,22 @@ class MovementController extends Controller
         $movement = Movement::findOrFail($id);
         $account = $movement->account;
 
+        $request->validate([
+            'date' => 'required|date',
+            'movement_category_id' => 'required',
+            'value' => 'required|numeric',
+            'description' => 'nullable|string',
+
+        ], [
+            'movement_category_id.required' => 'A movement category id is required to proceed',
+            'date.required' => 'A date needs to be choosen',
+            'value.required' => 'A value needs to be written',
+        ]);
+
         $movement->movement_category_id = $request->movement_category_id;
-        $movement->date = $request->input('date');
-        $movement->value = $request->input('value');
-        $movement->description = $request->input('description');
+        $movement->date = $request->date;
+        $movement->value = $request->value;
+        $movement->description = $request->description;
 
         $movement->start_balance = $account->current_balance;
 
@@ -111,7 +135,6 @@ class MovementController extends Controller
             array($account->id))
             ->with('message', 'Your account has been edited!');
 
-//        return back();
 
     }
 
@@ -121,11 +144,13 @@ class MovementController extends Controller
         $account = $movement->account;
 
         $movement->forceDelete();
-        //$this->recalculate($request);
+        $this->recalculate($request);
         $account->current_balance = $movement->start_balance;
         $account->save();
 
-        return back();
+        return Redirect::route('movements.list',
+            array($account->id))
+            ->with('message', 'Your account has been edited!');
 
     }
 
@@ -135,7 +160,9 @@ class MovementController extends Controller
 
 
         foreach($movements as $movement) {
-            if($movement->date < $movement->date->next()) {
+
+            $nextDate = $movement->date->next();
+            if($movement->date < $nextDate) {
                 if($request->type == 0){
 
                     $movement->next()->type = "revenue";
