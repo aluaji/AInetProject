@@ -26,11 +26,13 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/me/associates', 'AssociateMembersController@ViewAssociatedUser')->name('MemberList');
     Route::post('/me/associates', 'AssociateMembersController@addAssociatedMember')->name('AddMember');
     Route::delete('/me/associates/{user}', 'AssociateMembersController@deleteAssociatedMember')->name('DeleteMember');
-
     Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
+
     Route::delete('/account/{account}', 'AccountController@deleteAccount')->name('users.account.delete');
     Route::patch('/account/{account}/close', 'AccountController@closeAccount')->name('users.account.close');
+
     Route::patch('/account/{account}/reopen', 'AccountController@reopenAccount')->name('users.account.reopen');
+
     Route::get('/account', 'AccountController@createAccount')->name('users.account.create');
     Route::post('/account', 'AccountController@storeAccount')->name('users.account.store');
     Route::get('/account/{account}', 'AccountController@editAccount')->name('users.account.edit');
@@ -59,8 +61,8 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/users', 'UserController@listUsers')->name('users.list');
     Route::PATCH('/users/{user}/block', 'UserController@blockUser')->name('users.block');
     Route::PATCH('/users/{user}/unblock', 'UserController@unblockUser')->name('users.unblock');
-    Route::PATCH('/users/{user}/promote', 'UserController@changeUserPermissions')->name('users.promote');
-    Route::PATCH('/users/{user}/demote', 'UserController@changeUserPermissions')->name('users.demote');
+    Route::PATCH('/users/{user}/promote', 'UserController@promoteUser')->name('users.promote');
+    Route::PATCH('/users/{user}/demote', 'UserController@demoteUser')->name('users.demote');
 });
 
 

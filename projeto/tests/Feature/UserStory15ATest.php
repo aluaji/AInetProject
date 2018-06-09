@@ -75,7 +75,6 @@ class UserStory15ATest extends BaseAccountsTest
         // @codingStandardsIgnoreEnd
         // Given, When, Then
         $account = $this->seedUserAccount($this->mainUser->id, $this->types[0]->id);
-
         $this->actingAs($this->adminUser)
             ->delete('/account/'.$account->id)
             ->assertForbidden();

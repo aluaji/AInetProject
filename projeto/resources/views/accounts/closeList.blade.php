@@ -33,7 +33,7 @@
                             </thead>
                             <tbody>
                             @foreach($accounts as $account)
-                                @if(Auth::user()->id == $account->owner_id)
+                                @if($user->id == $account->owner_id)
                                     @if(isset($account->deleted_at))
                                         <tr>
                                             <td> {{ $account->owner_id }}</td>

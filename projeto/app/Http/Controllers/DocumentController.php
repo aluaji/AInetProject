@@ -36,10 +36,9 @@ class DocumentController extends Controller
 
         $movement = $this->getMovement($id);
         $path = null;
-
-        if(Input::hasFile('document_file')){
-            if(Input::file('document_file')->isValid()) {
-                $path = $request->file('document_file')->storeAs("documents/"  . $movement->account_id, $movement->id . '.' . $request->file('document_file')->extension());
+        if($request->hasFile('document_file')){
+            if($request->file('document_file')->isValid()) {
+               $request->file('document_file')->storeAs("documents/"  . $movement->account_id, $movement->id . '.' . $request->file('document_file')->extension());
             }
         }
 
