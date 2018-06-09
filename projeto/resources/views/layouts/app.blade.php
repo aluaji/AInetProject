@@ -54,11 +54,8 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                                     <!-- profile button -->
-                                    <a class="dropdown-item" href="#">
-                                        {{ __('Profile') }}
-                                    </a>
-                                        <a class="dropdown-item" href="{{route('users.changePasswordView' )}}">
-                                            {{ __('Change Password') }}
+                                        <a class="dropdown-item" href="{{route('users.showProfille' )}}">
+                                            {{ __('Profile') }}
                                         </a>
 
 
@@ -77,7 +74,7 @@
 
                             </li>
                             <li>
-                                <img src="{{ Storage::url(Auth::user()->profile_photo)}}" height="42" width="42"
+                                <img src="{{ Storage::url('public/profiles/' . Auth::user()->profile_photo)}}" height="42" width="42"
                                      style="border-radius: 100px;">
                             </li>
                         @endguest

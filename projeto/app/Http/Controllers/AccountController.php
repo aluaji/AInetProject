@@ -112,9 +112,9 @@ class AccountController extends Controller
 
     }
 
-    public function getAccountsBalance() {
+    public function getUserAccountsBalance($user) {
         $total_balance = 0;
-        foreach (Account::all() as $account) {
+        foreach (Account::where('owner_id', $user)->get() as $account) {
             $total_balance += $account->current_balance;
         }
         return $total_balance;

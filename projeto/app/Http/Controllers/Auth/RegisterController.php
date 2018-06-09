@@ -54,8 +54,8 @@ class RegisterController extends Controller
             'name' => 'required|regex:/^[\pL\s]+$/u',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:3|confirmed',
-            'phone' => 'digits:9|nullable',
-            'profile_photo' => 'image|mimes:jpeg,png,jpg'
+            'phone' => '|nullable|regex:/^[0-9+\s]+$/',
+            'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg'
         ]);
     }
 
@@ -70,16 +70,17 @@ class RegisterController extends Controller
         $path = null;
         if(Input::hasFile('profile_photo')){
             if(Input::file('profile_photo')->isValid()){
-                $path = Storage::putFile('public/profiles', Input::file('profile_photo'));
+                Storage::disk('public')->putFile('profiles', Input::file('profile_photo'));
+                $path = Input::file('profile_photo')->hashName();
             }
         }
-
         return User::create([
+
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'phone' => $data['phone'],
-            'profile_photo' => $path
+            'phone' => $data['phone'] ?? null,
+            'profile_photo' => $path,
         ]);
     }
 }

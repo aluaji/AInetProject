@@ -72,7 +72,8 @@ class DocumentController extends Controller
 
     public function getDocument($document_id) {
         $document = Document::findOrFail($document_id);
-        return response()->file(storage_path('app/documents/' . $this->getDocumentPath($document)));
+        return response()->download(storage_path('app/documents/' . $this->getDocumentPath($document)));
+//        return response()->file(storage_path('app/documents/' . $this->getDocumentPath($document)));
 
     }
 }
