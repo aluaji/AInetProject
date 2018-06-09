@@ -31,7 +31,7 @@
                                 <th>Associated Document</th>
                                 <th>Created At</th>
                                 <th></th>
-                                <th><center>Actions</center></th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -64,7 +64,7 @@
                                                     @endif
                                             >Download Document
                                             </a>
-                                            <form method="post" action="{{ route('document.delete', $movement->document) }}">
+                                            <form method="post" action="{{ route('document.delete', $movement) }}">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-danger btn-block" @if($movement->document_id == null)

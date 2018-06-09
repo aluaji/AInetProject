@@ -29,18 +29,23 @@ class DocumentController extends Controller
         return view('movements.upload', compact('movement'));
     }
     public function addDocument(Request $request, $id) {
+        $request->validate([
+            'document_file'         => 'required|mimes:jpeg,png,pdf',
+            'document_description'  => 'required|string',
+        ]);
+
         $movement = $this->getMovement($id);
         $path = null;
-        if(Input::hasFile('document_file')){
-            if(Input::file('document_file')->isValid()){
-                $path = $request->file('document_file')->storeAs(("documents/"  . $movement->account_id), $movement->id . '.' . $request->file('document_file')->extension());
+        if($request->hasFile('document_file')){
+            if($request->file('document_file')->isValid()) {
+               $request->file('document_file')->storeAs("documents/"  . $movement->account_id, $movement->id . '.' . $request->file('document_file')->extension());
             }
         }
 
         $document = new Document;
 
         $document->type = $request->document_file->extension();
-        $document->original_name = $movement->id . '.' . $request->document_file->extension();
+        $document->original_name = $request->document_file->getClientOriginalName();
         $document->description = $request->document_description;
 
         $document->save();
@@ -53,6 +58,7 @@ class DocumentController extends Controller
     }
 
     public function deleteDocument($document) {
+
         $movement = $this->getMovement($document->movement->id);
 
         $movement->document_id = null;

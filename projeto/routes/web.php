@@ -26,11 +26,13 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/me/associates', 'AssociateMembersController@ViewAssociatedUser')->name('MemberList');
     Route::post('/me/associates', 'AssociateMembersController@addAssociatedMember')->name('AddMember');
     Route::delete('/me/associates/{user}', 'AssociateMembersController@deleteAssociatedMember')->name('DeleteMember');
-
     Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
+
     Route::delete('/account/{account}', 'AccountController@deleteAccount')->name('users.account.delete');
     Route::patch('/account/{account}/close', 'AccountController@closeAccount')->name('users.account.close');
+
     Route::patch('/account/{account}/reopen', 'AccountController@reopenAccount')->name('users.account.reopen');
+
     Route::get('/account', 'AccountController@createAccount')->name('users.account.create');
     Route::post('/account', 'AccountController@storeAccount')->name('users.account.store');
     Route::get('/account/{account}', 'AccountController@editAccount')->name('users.account.edit');

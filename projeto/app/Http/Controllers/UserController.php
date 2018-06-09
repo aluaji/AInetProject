@@ -41,7 +41,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        if (!(Auth::user()->id === $userId)) { //tem que ter parênteses senão não entra no if
+        if (!(Auth::user()->id == $userId)) { //tem que ter parênteses senão não entra no if
             $user->blocked = 1;
             $user->save();
             return redirect(route('users.list'));
@@ -53,7 +53,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        if (!(Auth::user()->id === $userId)) {//tem que ter parênteses senão não entra no if
+        if (!(Auth::user()->id == $userId)) {//tem que ter parênteses senão não entra no if
             $user->blocked = 0;
             $user->save();
             return redirect(route('users.list'));
@@ -66,7 +66,7 @@ class UserController extends Controller
         // perguntar na defesa o porquê de não passar na US sendo que verificamos o user.
         $user = User::findOrFail($userId);
 
-        if (!(Auth::user()->id === $userId)) {//tem que ter parênteses senão não entra no if
+        if (!(Auth::user()->id == $userId)) {//tem que ter parênteses senão não entra no if
             $user->admin = 1;
             $user->save();
             return redirect(route('users.list'));
@@ -80,7 +80,7 @@ class UserController extends Controller
         //perguntar na defesa o porquê de não passar na US sendo que verificamos o user.
         $user = User::findOrFail($userId);
 
-        if (!(Auth::user()->id === $userId)) {//tem que ter parênteses senão não entra no if
+        if (!(Auth::user()->id == $userId)) {//tem que ter parênteses senão não entra no if
             $user->admin = 0;
             $user->save();
             return redirect(route('users.list'));
