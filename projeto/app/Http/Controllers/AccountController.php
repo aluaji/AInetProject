@@ -20,9 +20,7 @@ class AccountController extends Controller
 
         $user = User::findOrFail($userId);
         $accounts = Account::withTrashed()->where('owner_id', $user->id)->paginate(10);
-//        if(Gate::forUser($user)->denies('list_accounts', $user)){
-//            abort(403);
-//        }
+
         return view('accounts.list', compact('accounts', 'user'));
     }
 
@@ -48,31 +46,26 @@ class AccountController extends Controller
     public function closeAccount($id)
     {
         $account = Account::findOrFail($id);
-        if (Auth::id() == $account->owner_id) {
-            if ($account->owner_id == Auth::user()->id) {
-                if ($account->deleted_at == null) {
-                    $account->delete();
-                    return redirect()->back();
-                }
+
+        if ($account->owner_id == Auth::user()->id) {
+            if ($account->deleted_at == null) {
+                $account->delete();
             }
         }
-        abort(403); //vi nos testes
+        return back();
 
     }
 
     public function deleteAccount($id)
     {
-        $account = Account::findOrFail($id);
 
-        if (Auth::id() == $account->owner_id) {
-            if ($account->movement()->count() === 0) {
-                if ($account->last_movement_date == null) {
+        $account = Account::findOrFail($id);
+        if ($account ->movement()->count() == 0) {
+                if ($account->deleted_at == null) {
                     $account->forceDelete();
-                    return redirect()->back();
                 }
-            }
         }
-        abort(403); // vi nos testes
+        return back();
     }
 
     public function reopenAccount($id)
@@ -81,11 +74,12 @@ class AccountController extends Controller
         $account = Account::withTrashed()->findOrFail($id);
 
         if (Auth::user()->id == $account->owner_id) {
-            $account->restore();
-            return redirect()->back();
+            if ($account->trashed()) {
+                $account->restore();
+            }
 
         }
-        abort(403); // vi nos testes
+        return redirect()->back();
     }
 
     public function createAccount()
@@ -100,7 +94,7 @@ class AccountController extends Controller
 
         $request->validate([
             'account_type_id' => 'required',
-            'date' => 'date|before_or_equal:today',
+            'date' => 'date',
             'code' => 'required|unique:accounts',
             'start_balance' => 'required|numeric',
             'description' => 'nullable|string',
@@ -122,6 +116,7 @@ class AccountController extends Controller
 
         $account_types = AccountType::all();  //vai buscar todos os tipos
 
+        $account_type = true;
         foreach ($account_types as $type) {
             if ($type->id == $request->account_type_id) {
                 $account_type = false;
@@ -133,12 +128,14 @@ class AccountController extends Controller
             $request->session()->put('errors', 'Account type is not');
             return redirect()->back()->withErrors($errors);
         }
+
+
         $account->save();
 
 
         return Redirect::route('AllAccounts',
-            array($account->id))
-            ->with('success', 'Your account has been created!');
+            array($account->owner_id))
+            ->with('message', 'Your account has been created!');
 
 
     }
@@ -154,31 +151,41 @@ class AccountController extends Controller
     public function updateAccount(Request $request, $id)
     {
 
-        $account = Account::findOrFail($id);
         $request->validate([
-            'account_type_id' => 'required|numeric',
-            'date' => 'required|date|before_or_equal:today',
-            'code' => 'required|unique:accounts,code'
+            'account_type_id' => 'required',
+            'code' => 'required|unique:accounts',
+            'start_balance' => 'required|numeric',
+            'description' => 'nullable|string',
+        ], [
+            'account_type_id.required' => 'An account type is required to proceed.',
+            'code.required' => 'A code is required to proceed',
+            'code.unique' => 'This code already exists',
+            'start_balance.required' => 'A start balance is required to proceed'
         ]);
 
+        $account = Account::findOrFail($id);
         $movements = $account->movement;
+
+
+
+
+        $account->account_type_id = $request->account_type_id;
+        $account->code = $request->code;
+        $account->start_balance = $request->start_balance;
+        $account->description = $request->description;
+
 
         if ($request->start_balance != $account->start_balance) {
 
             foreach ($movements as $movement) {
-                $movement->start_balance = $movement->start_balance - ($account->start_balance);
-                $movement->end_balance = $movement->start_balance - $movement->value;
+                $movement->start_balance += $request->start_balance - $account->start_balance;
+                $movement->end_balance = $movement->start_balance + $movement->value;
                 $account->current_balance = $movement->end_balance;
 
                 $movement->save();
             }
 
         }
-
-        $account->account_type_id = $request->account_type_id;
-        $account->code = $request->code;
-        $account->start_balance = $request->start_balance;
-        $account->description = $request->description;
 
         $account->save();
         return Redirect::route('AllAccounts',

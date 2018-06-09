@@ -25,14 +25,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-//        Gate::define('view-account', function($user, $account_id) {
-//                return $user->id == $this->accountOwnerId($account_id);
-//        });
-//
-//        Gate::define('list_accounts', function ($user, $otherUser) {
-//            return $user->userBelongTo()->get()->contains($otherUser) || $user->id == $otherUser->id;
-//        });
+        Gate::define('current_balance creation', function($user, $account){
+            return $user->id == $account->owner_id;
+    });
 
-//        Gate::define('delete_account','AccountController@deleteAccount');
+
     }
 }
