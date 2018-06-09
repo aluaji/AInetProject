@@ -21,12 +21,16 @@ class AssociateMembersController extends Controller
     }
 
     public function addAssociatedMember() {
+        $users = User::all();
+        return view('users.addAssociatedMember', compact('users'));
     }
 
-    public function deleteAssociatedMember($user) {
-        $associated_member = Auth::user()->associateMembers()->findOrFail($user);
-        $associated_member->associateMembers()->detach(Auth::user());
-        $this->ViewAssociatedUser();
+    public function deleteAssociatedMember($userId) {
+//        dd($associated_member);
+
+        if(!Auth::user()->associateMembers()->detach($userId))
+            abort(404);
+
         $associated_users = Auth::user()->associateMembers()->paginate(10); //paginate query builder
         return view('users.listAssociatedMembers', compact('associated_users'));
     }

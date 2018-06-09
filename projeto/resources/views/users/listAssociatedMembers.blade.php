@@ -43,7 +43,13 @@
                             @else
                                 <p>Missing associates</p>
                             @endif
-                        <a class="btn btn-outline-info btn-block" href="{{ route('AddMember') }}">Add Member</a>
+                            <form method="post" action = "{{ route('AddMember') }}">
+                                @csrf
+                                @method('post')
+                                <button class="btn btn-outline-info btn-block">
+                                    {{ __('Add Member') }}
+                                </button>
+                            </form>
                     </div>
                 </div>
             </div>

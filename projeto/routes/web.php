@@ -46,6 +46,9 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/accounts/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
     Route::get('/accounts/{user}/closed', 'AccountController@listClosedAccounts')->name('ClosedAccounts');
 
+    Route::get('/documents/{movement}/upload', 'DocumentController@uploadForm')->name('documents.upload');
+    Route::post('/documents/{movement}', 'DocumentController@addDocument')->name('documents.add');
+
 });
 
 //Route::middleware(['auth', 'can:list_accounts,user'])->group(function(){
@@ -69,8 +72,7 @@ Route::get('/form',function(){
     return view('form');
 });
 
-Route::get('/documents/{movement}/upload', 'DocumentController@uploadForm')->name('documents.upload');
-Route::post('/documents/{movement}', 'DocumentController@addDocument')->name('documents.add');
+
 Route::delete('/document/{document}', 'DocumentController@deleteDocument')->name('document.delete');
 Route::get('/document/{document}', 'DocumentController@getDocument')->name('document.get');
 

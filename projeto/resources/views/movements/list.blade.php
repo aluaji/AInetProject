@@ -55,7 +55,7 @@
                                                 @endif
                                         >Upload Document
                                         </a>
-                                        <div class="btn-group btn-group-vertical">
+                                        {{--<div class="btn-group btn-group-vertical">--}}
                                             <a class="btn btn-info btn-block"
                                                @if($movement->document_id == null)
                                                style="display: none;"
@@ -64,7 +64,7 @@
                                                     @endif
                                             >Download Document
                                             </a>
-                                            <form method="post" action="{{ route('document.delete', $movement->document) }}">
+                                            <form method="post" action="{{ route('document.delete', $movement->id) }}">
                                                 @csrf
                                                 @method('delete')
                                                 <button class="btn btn-danger btn-block" @if($movement->document_id == null)
@@ -81,7 +81,7 @@
                                                     {{--@endif--}}
                                             {{-->Delete Document--}}
                                             {{--</a>--}}
-                                        </div>
+                                        {{--</div>--}}
                                     </td>
                                     <td> {{ $movement->created_at }}</td>
                                     <td>
