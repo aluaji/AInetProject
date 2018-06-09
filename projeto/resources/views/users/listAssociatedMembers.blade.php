@@ -24,6 +24,17 @@
                                         {{ $user->name }}
                                     </td>
                                     <td> {{ $user->email }}</td>
+                                    {{--<td><a class="btn btn-outline-info btn-block" href="{{ route('DeleteMember', $user) }}">Remove Member</a></td>--}}
+                                    <td>
+                                        <form method="post" action = "{{ route('DeleteMember', $user) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-danger">
+                                                {{ __('Remove Member') }}
+
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>
@@ -32,6 +43,7 @@
                             @else
                                 <p>Missing associates</p>
                             @endif
+                        <a class="btn btn-outline-info btn-block" href="{{ route('AddMember') }}">Add Member</a>
                     </div>
                 </div>
             </div>
