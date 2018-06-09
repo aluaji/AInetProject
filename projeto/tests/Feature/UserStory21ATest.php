@@ -149,7 +149,7 @@ class UserStory21ATest extends BaseAccountsTest
         $account = $this->seedOpenedAccountsForUser($this->mainUser->id)
             ->first();
         $data = [
-            'movement_category_id' => 120,
+            'movement_category_id' => 200000,
             'date' => Carbon::now()->subDays(2)->format('Y-m-d'),
             'value' => 1,
         ];

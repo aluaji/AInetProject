@@ -131,7 +131,7 @@ class UserStory22CTest extends UserStory22Test
         // @codingStandardsIgnoreEnd
         // Given, When, Then
         $this->setAccountBalance(1);
-        $trx = $this->seedTransactions($this->account, 'revenue', 3000, 50, -1);
+        $trx = $this->seedTransactions($this->account, 'revenue', 50, 3000, -1);
         $split = $this->latest();
         $this->propagateDeleteAt($trx, $split, true);
         $this->assertQueryDateClause($split->date);

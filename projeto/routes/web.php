@@ -25,9 +25,6 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/profiles', 'UserController@ViewUserProfiles')->name('users.profiles');
     Route::get('/me/associates', 'AssociateMembersController@ViewAssociatedUser')->name('MemberList');
     Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
-    Route::get('/accounts/{user}', 'AccountController@listAccounts')->name('AllAccounts');
-    Route::get('/account/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
-    Route::get('/account/{user}/closed', 'AccountController@listClosedAccounts')->name('ClosedAccounts');
     Route::delete('/account/{account}', 'AccountController@deleteAccount')->name('users.account.delete');
     Route::patch('/account/{account}/close', 'AccountController@closeAccount')->name('users.account.close');
     Route::patch('/account/{account}/reopen', 'AccountController@reopenAccount')->name('users.account.reopen');
@@ -42,7 +39,16 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/movement/{movement}', 'MovementController@updateMovement')->name('movements.update');
     Route::delete('/movement/{movement}', 'MovementController@deleteMovement')->name('movements.delete');
 
+    Route::get('/accounts/{user}', 'AccountController@listAccounts')->name('AllAccounts');
+    Route::get('/accounts/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
+    Route::get('/accounts/{user}/closed', 'AccountController@listClosedAccounts')->name('ClosedAccounts');
+
 });
+
+//Route::middleware(['auth', 'can:list_accounts,user'])->group(function(){
+//
+//});
+
 Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/users', 'UserController@listUsers')->name('users.list');
     Route::PATCH('/users/{user}/block', 'UserController@blockUser')->name('users.block');

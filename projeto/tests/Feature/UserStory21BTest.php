@@ -170,7 +170,7 @@ class UserStory21BTest extends BaseAccountsTest
         $movement = $this->seedTransactions($account, 'revenue', 1)
             ->first();
         $data = [
-            'movement_category_id' => 120,
+            'movement_category_id' => 200000,
             'date' => Carbon::now()->subDays(2)->format('Y-m-d'),
             'value' => 1,
         ];

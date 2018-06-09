@@ -52,12 +52,12 @@ class UserStory05Test extends UserStoryTestCase
             ->get('/users')
             ->assertStatus(200)
             ->assertPatternCount(
-                '/class\="\s*user\-is\-blocked\s*/u',
+                '/user\-is\-blocked/u',
                 2,
                 'blocked users count mismatch. Ensure that the class user-is-blocked is applied to a blocked user.'
             )
             ->assertPatternCount(
-                '/class\="\s*user\-is\-admin\s*/u',
+                '/user\-is\-admin/u',
                 3,
                 'admin users count mismatch. Ensure that the user-is-admin is applied to an admin user.'
             );

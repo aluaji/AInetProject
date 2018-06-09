@@ -163,8 +163,9 @@ class UserStory17Test extends BaseAccountsTest
         $this->assertDatabaseHas('accounts', $data);
 
         $storedAccount = DB::table('accounts')->where($data)->first();
+
         $this->assertNotNull($storedAccount->date);
-        $this->assertTrue(new Carbon($storedAccount->date) >= $minDate);
+        $this->assertTrue(Carbon::createFromFormat('Y-m-d', $storedAccount->date) >= $minDate);
     }
 
     // @codingStandardsIgnoreStart

@@ -220,7 +220,7 @@ class UserStory22BTest extends UserStory22Test
         // @codingStandardsIgnoreEnd
         // Given, When, Then
         $this->setAccountBalance(1);
-        $trx = $this->seedTransactions($this->account, 'revenue', 3000, 50, -1);
+        $trx = $this->seedTransactions($this->account, 'revenue', 50, 3000, -1);
         $split = $this->latest();
         $insertion = $split->date->addDays(1);
         $this->propagateEditAt($trx, 'revenue', 0.25, $split, $insertion, $insertion->format('Y-m-d'), true);

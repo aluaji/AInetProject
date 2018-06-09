@@ -161,15 +161,16 @@ abstract class UserStory22Test extends BaseAccountsTest
         $queries = $this->queries->filter(function ($entry) {
             $query = $entry['query'];
             return
-                str_contains($query, 'from "movements"') &&
-                str_contains($query, '"date"') &&
+                preg_match('/from ["`]movements["`]/', $query) &&
+                preg_match('/["`]date["`]/', $query) &&
                 !str_contains($query, ' limit ');
         });
+
         if ($queries->count() == 0) {
             $this->fail('Missing date clause on movements query1');
         }
         foreach ($queries as $query) {
-            $dateClause = str_contains($query['query'], '"date" >=') ? $geDate : $gDate;
+            $dateClause = preg_match('/["`]date["`] [>][=]/', $query['query']) ? $geDate : $gDate;
             $hasDateClause = collect($query['bindings'])->contains(function ($value) use ($dateClause) {
                 return starts_with($value, $dateClause);
             });

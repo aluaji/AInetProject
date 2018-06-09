@@ -147,7 +147,7 @@ class UserStory13Test extends UserStoryTestCase
         $this->seedTestUsers();
         $user1 = User::where('email', 'user1@mail.pt')->first();
         $user2 = User::where('email', 'user2@mail.pt')->first();
-        $links = User::whereNotIn('id', [$user1->id, $user2->id, $this->mainUser])
+        $links = User::whereNotIn('id', [$user1->id, $user2->id, $this->mainUser->id])
             ->pluck('id')
             ->map(function ($id) {
                 return 'href="'.url('/accounts/'.$id).'"';

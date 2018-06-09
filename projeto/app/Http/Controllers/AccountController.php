@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Account;
+use App\AccountType;
+use App\User;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -11,51 +15,53 @@ use Illuminate\Support\Facades\Redirect;
 class AccountController extends Controller
 {
 
-    public function listAccounts() {
+    public function listAccounts($userId) {
 
-        if(Auth::check()) {
-            $accounts = Account::withTrashed()->paginate(45);
-            return view('accounts.list', compact('accounts'));
-        }
+        $user = User::findOrFail($userId);
+        $accounts = Account::withTrashed()->where('owner_id', $user->id)->paginate(10);
+//        if(Gate::forUser($user)->denies('list_accounts', $user)){
+//            abort(403);
+//        }
+        return view('accounts.list', compact('accounts', 'user'));
+    }
+
+    public function listOpenedAccounts($userId) {
+
+        $user = User::findOrFail($userId);
+        $accounts = Account::withTrashed()->where('owner_id', $user->id)->paginate(10);
+        return view('accounts.openList', compact('accounts', 'user'));
 
     }
 
-    public function listOpenedAccounts() {
+    public function listClosedAccounts($userId) {
 
-        if(Auth::check()) {
-            $accounts = Account::withTrashed()->paginate(45);
-            return view('accounts.openList', compact('accounts'));
-        }
-    }
+        $user = User::findOrFail($userId);
+        $accounts = Account::withTrashed()->where('owner_id',$user->id)->paginate(10);
+        return view('accounts.closeList', compact('accounts', 'user'));
 
-    public function listClosedAccounts() {
-
-        if(Auth::check()) {
-            $accounts = Account::withTrashed()->paginate(45);
-            return view('accounts.closeList', compact('accounts'));
-        }
     }
 
 
     public function closeAccount($id) {
         $account = Account::findOrFail($id);
 
-        if($account->deleted_at == null) {
-            $account->delete();
+        if($account->owner_id == Auth::user()->id) {
+            if ($account->deleted_at == null) {
+                $account->delete();
+            }
         }
         return back();
 
     }
-    public function deleteAccount($id) {
+    public function deleteAccount($id)
+    {
 
         $account = Account::findOrFail($id);
-
-        if($account->deleted_at == null) {
-            if($account->last_movement_date == null) {
+        if(count($account-movement()) == 0) {
+            if($account->deleted_at == null) {
                 $account->forceDelete();
             }
         }
-
         return back();
     }
     public function reopenAccount($id) {
@@ -72,12 +78,26 @@ class AccountController extends Controller
 
     public function createAccount() {
 
-        return view('accounts.createAccount');
+        $account_type = AccountType::all();
+        return view('accounts.createAccount', compact('account_type'));
     }
 
     public function storeAccount(Request $request)
     {
         $account = new Account;
+
+        $this->validate($request, [
+            'account_type_id' => 'required',
+            'date' => 'date|before_or_equal:today',
+            'code' => 'required|unique:accounts',
+            'start_balance' => 'required|numeric',
+            'description' => 'nullable|string',
+        ], [
+            'account_type_id.required' => 'An account type is required to proceed.',
+            'code.required' => 'A code is required to proceed',
+            'code.unique' => 'This code already exists',
+            'start_balance.required' => 'A start balance is required to proceed'
+        ]);
 
 
         $account->account_type_id= $request->account_type_id;
@@ -87,11 +107,30 @@ class AccountController extends Controller
         $account->date = $request->date;
         $account->description = $request->description;
 
+
+        $account_type = true;
+        $account_types = AccountType::all();
+
+        foreach($account_types as $type) {
+            if($type->id == $request->account_type_id) {
+                $account_type = false;
+            }
+        }
+
+        if($account_type == true) {
+            $errors['account_type_id'] = 'Account Type is not valid';
+            $request->session()->put('errors', 'Account type is not');
+            return redirect()->back()->withErrors($errors);
+        }
+
+
         $account->save();
+
+
 
         return Redirect::route('AllAccounts',
             array($account->id))
-            ->with('message', 'Your account has been created!');
+            ->with('success', 'Your account has been created!');
 
 
     }

@@ -35,57 +35,60 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($accounts as $account)
-                                @if(Auth::user()->id == $account->owner_id)
-                                    @if(!isset($account->deleted_at))
-                                        <tr>
-                                            <td> {{ $account->owner_id }}</td>
-                                            <td> {{ $account->code }}</td>
-                                            <td> {{ $account->id }}</td>
-                                            <td>
-                                                {{ $account->account_type->name }}
-                                            </td>
-                                            <td> {{ $account->created_at }}</td>
-                                            <td> {{ $account->start_balance }}</td>
-                                            <td> {{ $account->current_balance }}</td>
-                                            <td>
-                                                <a class="btn btn-warning" href="{{ route('movements.list', $account->id) }}">
-                                                    {{ __('List Movements') }}
-                                                </a>
-                                            </td>
-                                            <td>@if($account->current_balance != 0.00)
-                                                    <a class = "btn btn-danger disabled">Close Account</a>
-                                                @else
-                                                    <form method="post" action = "{{ route('users.account.close', $account->id) }}">
-                                                        @csrf
-                                                        @method('patch')
-                                                        <button class="btn btn-danger">
-                                                            {{ __('Close Account') }}
+                            @auth
+                                @foreach($accounts as $account)
+                                    @if($user->id == $account->owner_id)
+                                        @if(!isset($account->deleted_at))
+                                            <tr>
+                                                <td> {{ $account->owner_id }}</td>
+                                                <td> {{ $account->code }}</td>
+                                                <td> {{ $account->id }}</td>
+                                                <td>
+                                                    {{ $account->account_type->name }}
+                                                </td>
+                                                <td> {{ $account->created_at }}</td>
+                                                <td> {{ $account->start_balance }}</td>
+                                                <td> {{ $account->current_balance }}</td>
+                                                <td>
+                                                    <a class="btn btn-warning" href="{{ route('movements.list', $account->id) }}">
+                                                        {{ __('List Movements') }}
+                                                    </a>
+                                                </td>
+                                                <td>@if($account->current_balance != 0.00)
+                                                        <a class = "btn btn-danger disabled">Close Account</a>
+                                                    @else
+                                                        <form method="post" action = "{{ route('users.account.close', $account->id) }}">
+                                                            @csrf
+                                                            @method('patch')
+                                                            <button class="btn btn-danger">
+                                                                {{ __('Close Account') }}
 
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </td>
-                                            <td>@if(isset($account->last_movement_date))
-                                                    <a class="btn btn-danger disabled">Delete Account</a>
-                                                @elseif($account->current_balance != 0.00)
-                                                    <a class="btn btn-danger disabled">Delete Account</a>
-                                                @else
-                                                    <form method="post" action = "{{ route('users.account.delete', $account->id) }}">
-                                                        @csrf
-                                                        @method('delete')
-                                                        <button class="btn btn-danger">
-                                                            {{ __('Delete Account') }}
+                                                            </button>
+                                                        </form>
+                                                    @endif
+                                                </td>
+                                                <td>@if(isset($account->last_movement_date))
+                                                        <a class="btn btn-danger disabled">Delete Account</a>
+                                                    @elseif($account->current_balance != 0.00)
+                                                        <a class="btn btn-danger disabled">Delete Account</a>
+                                                    @elseif($account->movement()->count() == 0)
+                                                        @can('delete_account', $account->id)
+                                                            <form method="post" action = "{{ route('users.account.delete', $account->id) }}">
+                                                                @csrf
+                                                                @method('delete')
+                                                                <button class="btn btn-danger">
+                                                                    {{ __('Delete Account') }}
 
-                                                        </button>
-                                                    </form>
-                                                @endif
-                                            </td>
-
-                                        </tr>
+                                                                </button>
+                                                            </form>
+                                                        @endcan
+                                                    @endif
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endif
-                                @endif
-                            @endforeach
+                                @endforeach
+                            @endauth
                             </tbody>
                         </table>
                         {{ $accounts->links() }}
