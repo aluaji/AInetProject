@@ -22,9 +22,9 @@
                         <a class="btn btn-info" href="{{ route('AllAccounts', Auth::user()->id) }}">
                             {{ __('List of Accounts') }}
                         </a>
-                        {{--<a class="btn btn-info" href="{{ route('dashboard', Auth::user()->id) }}">--}}
-                        {{--{{ __('User Dashboard') }}--}}
-                        {{--</a>--}}
+                        <a class="btn btn-info" href="{{ route('dashboard', Auth::user()->id) }}">
+                        {{ __('User Dashboard') }}
+                        </a>
                         <a class="btn btn-info" href="{{ route('MemberList') }}">
                             {{ __('List of Associated Members') }}
                         </a>
