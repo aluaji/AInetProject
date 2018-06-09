@@ -24,6 +24,7 @@ Route::middleware(['auth'])->group(function() {
     Route::patch('/me/password', 'UserController@changeUserPassword')->name('users.changePassword');
     Route::get('/profiles', 'UserController@ViewUserProfiles')->name('users.profiles');
     Route::get('/me/associates', 'AssociateMembersController@ViewAssociatedUser')->name('MemberList');
+    Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
     Route::get('/accounts/{user}', 'AccountController@listAccounts')->name('AllAccounts');
     Route::get('/account/{user}/opened', 'AccountController@listOpenedAccounts')->name('OpenedAccounts');
     Route::get('/account/{user}/closed', 'AccountController@listClosedAccounts')->name('ClosedAccounts');
@@ -50,7 +51,6 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::PATCH('/users/{user}/demote', 'UserController@changeUserPermissions')->name('users.demote');
 });
 
-Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
 
 
 
