@@ -6,10 +6,8 @@
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <div class="card">
-                    <div class="card-header">List of Users</div>
-
+                    <div class="card-header">List of Associates</div>
                     <div class="card-body">
-                        @if(count($associated_users) > 0)
                         <table class="table table-striped" style="text-align: center">
                             <thead class="thead-dark">
                             <tr>
@@ -18,20 +16,17 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($associated_users as $user)
-                                <tr>
-                                    <td>
-                                        {{ $user->name }}
-                                    </td>
-                                    <td> {{ $user->email }}</td>
-                                </tr>
+                            @foreach($users as $user)
+                                @if(Auth::user()->id = $user->associate_member->)
+                                    <tr>
+                                        <td> {{ $user->name }}</td>
+                                        <td> {{ $user->email }}</td>
+                                    </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>
-                        {{ $associated_users->links() }}
-                            @else
-                                <p>Missing associates</p>
-                            @endif
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>

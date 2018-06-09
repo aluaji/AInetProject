@@ -79,7 +79,7 @@
                                                         @csrf
                                                         @method('patch')
                                                         @if($user->blocked)
-                                                            <button class="user-is-blocked btn btn-danger">Unblock
+                                                            <button class="btn btn-danger">Unblock
                                                             </button>
                                                         @else
                                                             <button class="btn btn-danger">Block</button>
@@ -96,7 +96,7 @@
                                                         @csrf
                                                         @method('patch')
                                                         @if($user->admin == 1)
-                                                            <button class="user-is-admin btn btn-warning">Demote
+                                                            <button class="btn btn-warning">Demote
                                                             </button>
                                                         @else
                                                             <button class="btn btn-warning">Promote</button>

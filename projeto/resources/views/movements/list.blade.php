@@ -4,13 +4,18 @@
 
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-12">
+            <div class="col-md-20">
                 <div class="card">
                     <div class="card-header">My Movements</div>
                     <div class="card-body">
                         <a  class="btn btn-success" href=" {{ route('movements.create', $account->id) }} ">
                             {{ __('Create a Movement') }}
                         </a>
+                        <a class="btn btn-danger" href=" {{ route('OpenedAccounts', Auth::user()->id) }}">
+                            {{ __('Back')}}
+
+                        </a>
+
                         <table class="table table-striped">
                             <thead class="thead-dark">
                             <tr>
@@ -25,11 +30,12 @@
                                 <th>Type</th>
                                 <th>Associated Document</th>
                                 <th>Created At</th>
+                                <th></th>
+                                <th><center>Actions</center></th>
                             </tr>
                             </thead>
                             <tbody>
                             @foreach($movements as $movement)
-                                {{--                                    <td> <button type="button" href="{{ route('documents.add') }}>Add File</button> </td>--}}
                                 <tr>
                                     <td> {{ $movement->id }}</td>
                                     <td> {{ $movement->account_id }}</td>
@@ -46,29 +52,44 @@
                                            style="display: none;"
                                            @else
                                            href="{{ route('documents.upload', $movement) }}"
-                                           @endif
+                                                @endif
                                         >Upload Document
                                         </a>
                                         <div class="btn-group btn-group-vertical">
-                                        <a class="btn btn-info btn-block"
-                                           @if($movement->document_id == null)
-                                           style="display: none;"
-                                           @else
-                                           href="{{ route('document.get', $movement->document) }}"
-                                           @endif
-                                        >Download Document
-                                        </a>
-                                        <a class="btn btn-danger btn-block"
-                                           @if($movement->document_id == null)
-                                           style="display: none;"
-                                           @else
-                                           href="{{ route('document.delete', $movement->document) }}"
-                                           @endif
-                                        >Delete Document
-                                        </a>
+                                            <a class="btn btn-info btn-block"
+                                               @if($movement->document_id == null)
+                                               style="display: none;"
+                                               @else
+                                               href="{{ route('document.get', $movement->document) }}"
+                                                    @endif
+                                            >Download Document
+                                            </a>
+                                            <a class="btn btn-danger btn-block"
+                                               @if($movement->document_id == null)
+                                               style="display: none;"
+                                               @else
+                                               href="{{ route('document.delete', $movement->document) }}"
+                                                    @endif
+                                            >Delete Document
+                                            </a>
                                         </div>
                                     </td>
                                     <td> {{ $movement->created_at }}</td>
+                                    <td>
+                                    <a class="btn btn-warning" href="{{ route('movements.edit', $movement->id) }}">
+                                        {{ __('Edit Movement') }}
+                                    </a>
+                                    </td>
+                                    <td>
+                                        <form method="post" action = "{{ route('movements.delete', $movement->id) }}">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-danger">
+                                                {{ __('Delete Movement') }}
+
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @endforeach
                             </tbody>

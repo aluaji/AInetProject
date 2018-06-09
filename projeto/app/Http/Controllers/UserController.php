@@ -41,22 +41,22 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        if (!Auth::user() == $user) {
+        if (!Auth::user()->id == $userId) {
             $user->blocked = 1;
             $user->save();
+            return redirect(route('users.list'));
         }
-        return redirect(route('users.list'));
+        return back()->withErrors(["error", "User is already Blocked"]);
     }
 
     public function unblockUser($userId)
     {
         $user = User::findOrFail($userId);
-        if (!Auth::user() == $user) {
+        if (!Auth::user()->id == $userId) {
             $user->blocked = 0;
             $user->save();
             return redirect(route('users.list'));
         }
-        return back()->withErrors(["error", "User is already Unblocked"]);
     }
 
 //    public function changeUserStatus($userId)
@@ -83,16 +83,17 @@ class UserController extends Controller
 
         $user = User::findOrFail($userId);
 
-        if (!$user == Auth::user()) {
+        if (!$userId == Auth::user()->id) {
             if ($user->admin == 0) {
                 $user->admin = 1;
             } else {
                 $user->admin = 0;
             }
             $user->save();
+            return redirect(route('users.list'));
         }
+        return back()->withErrors(["error", "Error changing permissions"]);
 
-        return redirect(route('users.list'));
     }
 
     public function showProfile()
@@ -128,43 +129,44 @@ class UserController extends Controller
     public function changeUserProfile(Request $request)
     {
 
+        $userId = Auth::id();
+        $user = User::findOrFail($userId);
+
         if (!$request->has('phone')) {
             $request->request->add(['phone' => null]);   //caso não exista põe phone a null
         }
 
-        $userId = Auth::id();
-        $userAux = User::findOrFail($userId);
-
-
-        if (!$request->email === $userAux->email) { //=== para verificar se tem mesmo tipo
-            $userAux = $request->validate([
-                'name' => 'required|regex:/^[\pL\s]+$/u',
-                'email' => 'required|string|email|max:255|unique:users',
-                'phone' => 'nullable|regex:/^[0-9+\s]+$/',
+        if ($request->email !== $user->email) { //=== para verificar se tem mesmo tipo
+            $request->validate([
+                'name'          => 'required|regex:/^[\pL\s]+$/u',
+                'email'         => 'required|string|email|max:255|unique:users',
+                'phone'         => 'nullable|regex:/^[0-9+\s]+$/',
                 'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg'
             ]);
         } else {
-            $userAux = $request->validate([
-                'name' => 'required|regex:/^[\pL\s]+$/u',
-                'phone' => 'nullable|regex:/^[0-9+\s]+$/',
+            $request->validate([
+                'name'          => 'required|regex:/^[\pL\s]+$/u',
+                'phone'         => 'nullable|regex:/^[0-9+\s]+$/',
                 'profile_photo' => 'nullable|image|mimes:jpeg,png,jpg'
             ]);
 
         }
 
 
+        $user->fill($request->all());
+
+
+        //só depois é que mete a foto
         if ($request->hasFile('profile_photo')) {
-            $img = $request->file('profile_photo');
-            $imgName = $img->hashName();
-            $userAux['profile_photo'] = $imgName;
-            Storage::disk('public')->putFile('profiles', $img);
+            if($request->file('profile_photo')->isValid()) {
+                Storage::disk('public')->putFile('profiles', $request->file('profile_photo'));
+                $imgName = $request->profile_photo->hashName();
+                $user->profile_photo = $imgName;
+            }
         }
 
 
-        //Criação de Modelo
-        $userModel = User::findOrFail($userId);
-        $userModel->fill($userAux);
-        $userModel->save();
+        $user->save();
 
         return view('users.userProfile')->with('success');
 

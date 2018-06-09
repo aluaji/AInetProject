@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Document;
 use App\Movement;
 use App\Account;
+use App\MovementCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -16,7 +17,7 @@ class MovementController extends Controller
     public function listMovements($account_id) {
 
         $account = Account::findOrFail($account_id);
-        $movements = Movement::where('account_id', $account_id)->paginate(10);
+        $movements = Movement::where('account_id', $account_id)->orderBy('date', 'desc')->paginate(10);
 
         return view('movements.list', compact('movements', 'account'));
     }
@@ -24,7 +25,8 @@ class MovementController extends Controller
     public function createMovement($id) {
 
         $account = Account::findOrFail($id);
-        return view('movements.createMovement', compact('account'));
+        $movement_type = MovementCategory::all();
+        return view('movements.createMovement', compact('account', 'movement_type'));
     }
 
     public function storeMovement(Request $request, $account_id) {
@@ -32,18 +34,30 @@ class MovementController extends Controller
         $movement = new Movement;
         $account = Account::findOrFail($account_id);
 
+
         $movement->account_id = $account_id;
 
 
         $movement->type = $request->type;
         $movement->movement_category_id = $request->movement_category_id;
         $movement->value = $request->value;
-        $movement->document_file = $request->document_file;
-        $movement->document_description = $request->document_description;
         $movement->date = $request->date;
         $movement->description = $request->description;
         $movement->start_balance = $account->current_balance;
-        $movement->end_balance = $movement->value + $movement->start_balance;
+
+
+        if($request->type == 0){
+
+            $movement->type = "revenue";
+            $value= $movement->value;
+            $movement->end_balance = $value + $movement->start_balance;
+
+        } else {
+            $movement->type = "expense";
+            $value = $movement->value;
+            $movement->end_balance = -$value + $movement->start_balance;
+        }
+
         $account->current_balance = $movement->end_balance;
 
         $movement->save();
@@ -52,6 +66,90 @@ class MovementController extends Controller
         return Redirect::route('movements.list',
             array($account->id))
             ->with('message', 'Your movement has been created!');
+
+//        return back();
+
+    }
+
+    public function editMovement($id) {
+
+        $movement = Movement::findOrFail($id);
+        $movement_category = MovementCategory::all();
+        return view('movements.editMovement', compact('movement', 'movement_category'));
+    }
+
+    public function updateMovement(Request $request, $id) {
+
+        $movement = Movement::findOrFail($id);
+        $account = $movement->account;
+
+        $movement->movement_category_id = $request->movement_category_id;
+        $movement->date = $request->input('date');
+        $movement->value = $request->input('value');
+        $movement->description = $request->input('description');
+
+        $movement->start_balance = $account->current_balance;
+
+        if($request->type == 0){
+
+            $movement->type = "revenue";
+            $value= $movement->value;
+            $movement->end_balance = $value + $movement->start_balance;
+
+        } else {
+            $movement->type = "expense";
+            $value = $movement->value;
+            $movement->end_balance = -$value + $movement->start_balance;
+        }
+        $account->current_balance = $movement->end_balance;
+
+
+        $movement->save();
+        $account->save();
+
+        return Redirect::route('movements.list',
+            array($account->id))
+            ->with('message', 'Your account has been edited!');
+
+//        return back();
+
+    }
+
+    public function deleteMovement(Request $request, $id) {
+
+        $movement = Movement::findOrFail($id);
+        $account = $movement->account;
+
+        $movement->forceDelete();
+        //$this->recalculate($request);
+        $account->current_balance = $movement->start_balance;
+        $account->save();
+
+        return back();
+
+    }
+
+    public function recalculate(Request $request) {
+
+        $movements = Movement::all();
+
+
+        foreach($movements as $movement) {
+            if($movement->date < $movement->date->next()) {
+                if($request->type == 0){
+
+                    $movement->next()->type = "revenue";
+                    $value= $movement->next()->value;
+                    $movement->next()->end_balance = $value + $movement->next()->start_balance;
+
+                } else {
+                    $movement->next()->type = "expense";
+                    $value = $movement->next()->value;
+                    $movement->next()->end_balance = -$value + $movement->next()->start_balance;
+                }
+
+            }
+        }
 
     }
 
