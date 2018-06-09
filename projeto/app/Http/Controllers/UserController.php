@@ -41,54 +41,47 @@ class UserController extends Controller
     {
         $user = User::findOrFail($userId);
 
-        if (!Auth::user()->id == $userId) {
+        if (!(Auth::user()->id === $userId)) { //tem que ter parênteses senão não entra no if
             $user->blocked = 1;
             $user->save();
             return redirect(route('users.list'));
         }
-        return back()->withErrors(["error", "User is already Blocked"]);
+        return back()->withErrors(["User is already Blocked"]);
     }
 
     public function unblockUser($userId)
     {
         $user = User::findOrFail($userId);
-        if (!Auth::user()->id == $userId) {
+
+        if (!(Auth::user()->id === $userId)) {//tem que ter parênteses senão não entra no if
             $user->blocked = 0;
             $user->save();
             return redirect(route('users.list'));
         }
+        return back()->withErrors(["User is already Unblocked"]);
     }
 
-//    public function changeUserStatus($userId)
-//    {
-//
-//        $user = User::findOrFail($userId);
-//        if (Auth::user()->id != $userId) {
-//            if ($user->blocked == 0) {
-//                $user->blocked = 1;
-//
-//            } else {
-//                $user->blocked = 0;
-//
-//            }
-//
-//            $user->save();
-//            return redirect(route('users.list'));
-//        }
-//        abort(404);
-//    }
-
-    public function changeUserPermissions($userId)
+    public function promoteUser($userId)
     {
-
+        // perguntar na defesa o porquê de não passar na US sendo que verificamos o user.
         $user = User::findOrFail($userId);
 
-        if (!$userId == Auth::user()->id) {
-            if ($user->admin == 0) {
-                $user->admin = 1;
-            } else {
-                $user->admin = 0;
-            }
+        if (!(Auth::user()->id === $userId)) {//tem que ter parênteses senão não entra no if
+            $user->admin = 1;
+            $user->save();
+            return redirect(route('users.list'));
+        }
+        return back()->withErrors(["error", "Error changing permissions"]);
+
+    }
+
+    public function demoteUser($userId)
+    {
+        //perguntar na defesa o porquê de não passar na US sendo que verificamos o user.
+        $user = User::findOrFail($userId);
+
+        if (!(Auth::user()->id === $userId)) {//tem que ter parênteses senão não entra no if
+            $user->admin = 0;
             $user->save();
             return redirect(route('users.list'));
         }
@@ -151,10 +144,7 @@ class UserController extends Controller
             ]);
 
         }
-
-
-        $user->fill($request->all());
-
+        $user->fill($request->all()); //no fim vai acabar por inserir a foto
 
         //só depois é que mete a foto
         if ($request->hasFile('profile_photo')) {

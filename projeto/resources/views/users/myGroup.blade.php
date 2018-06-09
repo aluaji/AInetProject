@@ -17,10 +17,10 @@
                             </thead>
                             <tbody>
                             @foreach($users as $user)
-                                @if(Auth::user()->id = $user->associate_member->)
+                                @if(Auth::user()->id = $user->associate_member)
                                     <tr>
                                         <td> {{ $user->name }}</td>
-                                        <td> {{ $user->email }}</td>
+                                        <td> {{ $user->profile_photo }}</td>
                                     </tr>
                                 @endif
                             @endforeach

@@ -52,7 +52,10 @@
                                 </a>
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-
+                                    <!--   home -->
+                                    <a class="dropdown-item" href="{{route('home' )}}">
+                                        {{ __('Home') }}
+                                    </a>
                                     <!-- profile button -->
                                         <a class="dropdown-item" href="{{route('users.showProfille' )}}">
                                             {{ __('Profile') }}
