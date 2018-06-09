@@ -18,7 +18,7 @@ class DashboardController extends Controller
     public function returnRelativeWeight($totalBalance, $account) {
         if(!isset($totalBalance) || is_null($totalBalance))
             return "ERROR";
-        return round(($account->current_balance / $totalBalance) * 100, 2);
+        return round((abs($account->current_balance) / abs($totalBalance)) * 100, 2);
     }
 
 }

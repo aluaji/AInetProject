@@ -33,8 +33,8 @@
                                         <td> {{ $account->created_at }}</td>
                                         <td> {{ $account->current_balance }}</td>
                                         <td> {{ $relativeWeight = (new \App\Http\Controllers\DashboardController)->returnRelativeWeight($totalBalance, $account) }}%</td>
-                                        <td><canvas id="relativeWeightCanvas" width="{{ abs($relativeWeight) . "%" }}" height="25%"
-                                        style="border-radius: 5px;border-style:inset;background-color: @if($relativeWeight > 0) #009926 @else #c9302c @endif"></canvas></td>
+                                        <td><canvas id="relativeWeightCanvas" width="{{ abs($relativeWeight) > 100 ? 100 : abs($relativeWeight) . "%" }}" height="25%"
+                                        style="border-radius: 5px;border-style:inset;background-color: @if($account->current_balance > 0) #009926 @else #c9302c @endif"></canvas></td>
                                     </tr>
                                 @endif
                             @endforeach

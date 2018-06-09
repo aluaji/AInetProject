@@ -24,6 +24,9 @@ Route::middleware(['auth'])->group(function() {
     Route::patch('/me/password', 'UserController@changeUserPassword')->name('users.changePassword');
     Route::get('/profiles', 'UserController@ViewUserProfiles')->name('users.profiles');
     Route::get('/me/associates', 'AssociateMembersController@ViewAssociatedUser')->name('MemberList');
+    Route::post('/me/associates', 'AssociateMembersController@addAssociatedMember')->name('AddMember');
+    Route::delete('/me/associates/{user}', 'AssociateMembersController@deleteAssociatedMember')->name('DeleteMember');
+
     Route::get('/me/associate-of', 'AssociateMembersController@viewMembersOtherGroups')->name('OtherMemberList');
     Route::delete('/account/{account}', 'AccountController@deleteAccount')->name('users.account.delete');
     Route::patch('/account/{account}/close', 'AccountController@closeAccount')->name('users.account.close');
@@ -68,8 +71,8 @@ Route::get('/form',function(){
 
 Route::get('/documents/{movement}/upload', 'DocumentController@uploadForm')->name('documents.upload');
 Route::post('/documents/{movement}', 'DocumentController@addDocument')->name('documents.add');
+Route::delete('/document/{document}', 'DocumentController@deleteDocument')->name('document.delete');
 Route::get('/document/{document}', 'DocumentController@getDocument')->name('document.get');
-Route::delete('/document/{document}', 'DocumentController@deleteForm')->name('document.delete');
 
 Route::get('/dashboard/{user}', 'DashboardController@index')->name('dashboard');
 

@@ -16,6 +16,10 @@ class DocumentController extends Controller
         return Movement::findOrFail($movement);
     }
 
+    public function returnDocument($movement) {
+        return Document::findOrFail($this->getMovement($movement));
+    }
+
     private function getDocumentPath($document) {
         return $document->movement->account_id . '/' . $document->movement->id . '.' . $document->type;
     }
@@ -48,10 +52,6 @@ class DocumentController extends Controller
         return redirect()->route('movements.list', $movement->account_id);
     }
 
-    public function deleteForm($document) {
-
-    }
-
     public function deleteDocument($document) {
         $movement = $this->getMovement($document->movement->id);
 
@@ -66,14 +66,9 @@ class DocumentController extends Controller
         return redirect()->route('movements.list', $movement->account_id);
     }
 
-//    public function downloadDocument($document_id) {
-//        return Storage::download($this->getDocumentPath($document_id));
-//    }
-
     public function getDocument($document_id) {
         $document = Document::findOrFail($document_id);
         return response()->download(storage_path('app/documents/' . $this->getDocumentPath($document)));
 //        return response()->file(storage_path('app/documents/' . $this->getDocumentPath($document)));
-
     }
 }

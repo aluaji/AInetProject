@@ -64,14 +64,23 @@
                                                     @endif
                                             >Download Document
                                             </a>
-                                            <a class="btn btn-danger btn-block"
-                                               @if($movement->document_id == null)
-                                               style="display: none;"
-                                               @else
-                                               href="{{ route('document.delete', $movement->document) }}"
-                                                    @endif
-                                            >Delete Document
-                                            </a>
+                                            <form method="post" action="{{ route('document.delete', $movement->document) }}">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-danger btn-block" @if($movement->document_id == null)
+                                                style="display: none;" @endif>
+                                                    {{ __('Delete Document') }}
+
+                                                </button>
+                                            </form>
+                                            {{--<a class="btn btn-danger btn-block"--}}
+                                               {{--@if($movement->document_id == null)--}}
+                                               {{--style="display: none;"--}}
+                                               {{--@else--}}
+                                               {{--href="{{ route('document.delete', $movement->document) }}"--}}
+                                                    {{--@endif--}}
+                                            {{-->Delete Document--}}
+                                            {{--</a>--}}
                                         </div>
                                     </td>
                                     <td> {{ $movement->created_at }}</td>
